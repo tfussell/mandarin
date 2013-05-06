@@ -56,7 +56,7 @@ namespace WinDock
         ///<para>Just load a image file and display it on our test form.</para>
         private void AddIcons()
         {
-            int icon_size = 56;
+            int icon_size = 54;
             int icon_spacing = 9;
             int canvas_height = 200;
             int canvas_width = 1280;
