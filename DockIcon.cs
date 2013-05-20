@@ -4,11 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using IWshRuntimeLibrary;
+using System.Diagnostics;
+using System.Drawing.Imaging;
 
 namespace WinDock
 {
     class DockIcon
     {
+        Process process;
+        public bool Running {
+            get { return process != null && !process.HasExited; }
+        }
+
+        public DockIcon(DockIcon cpy)
+        {
+            Path = cpy.Path;
+            Bitmap = cpy.Bitmap;
+            ReflectionBitmap = cpy.ReflectionBitmap;
+            process = null;
+            DisplayName = cpy.DisplayName;
+        }
+
         public DockIcon(String path)
         {
             Path = path;
@@ -16,6 +32,7 @@ namespace WinDock
 
             if (IsShortcut(path))
             {
+                DisplayName = System.IO.Path.GetFileNameWithoutExtension(path);
                 executable_path = ExtractExecutableFromShortcut(path);
             }
 
@@ -25,11 +42,35 @@ namespace WinDock
             {
                 Bitmap = Icon.ExtractAssociatedIcon(executable_path).ToBitmap();
             }
+
+            ReflectionBitmap = CreateReflection(Bitmap);
+
+            process = null;
+        }
+
+        Bitmap CreateReflection(Bitmap bitmap)
+        {
+            Bitmap reflection = new Bitmap(bitmap.Width, bitmap.Height);
+
+            using (Graphics graphics = Graphics.FromImage(reflection))
+            {
+                ColorMatrix matrix = new ColorMatrix();
+                matrix.Matrix33 = 0.3F;
+                ImageAttributes attributes = new ImageAttributes();
+                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                graphics.DrawImage(bitmap, new Rectangle(0, 0, reflection.Width, reflection.Width), 0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, attributes);
+            }
+
+            reflection.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+            return reflection;
         }
 
         public String Path { get; set; }
         public String DisplayName { get; set; }
         public Bitmap Bitmap { get; private set; }
+        public Bitmap ReflectionBitmap { get; private set; }
         public int Width { get; set; }
         public int Height { get; set; }
 
@@ -63,6 +104,11 @@ namespace WinDock
             }
 
             return null;
+        }
+
+        public void Launch()
+        {
+            process = Process.Start(Path);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace WinDock
 
                 Win32.Size size = new Win32.Size(bitmap.Width, bitmap.Height);
                 Win32.Point pointSource = new Win32.Point(0, 0);
-                Win32.Point topPos = new Win32.Point(0, 1024 - 200);
+                Win32.Point topPos = new Win32.Point(-1280, 1024 - 200);
                 Win32.BLENDFUNCTION blend = new Win32.BLENDFUNCTION();
                 blend.BlendOp = Win32.AC_SRC_OVER;
                 blend.BlendFlags = 0;
