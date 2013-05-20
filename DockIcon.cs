@@ -15,6 +15,12 @@ namespace WinDock
         public bool Running {
             get { return process != null && !process.HasExited; }
         }
+        public String Path { get; set; }
+        public String DisplayName { get; set; }
+        public Bitmap Bitmap { get; protected set; }
+        public Bitmap ReflectionBitmap { get; private set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
         public DockIcon(DockIcon cpy)
         {
@@ -23,6 +29,15 @@ namespace WinDock
             ReflectionBitmap = cpy.ReflectionBitmap;
             process = null;
             DisplayName = cpy.DisplayName;
+        }
+
+        public DockIcon()
+        {
+            Path = null;
+            Bitmap = null;
+            ReflectionBitmap = null;
+            process = null;
+            DisplayName = null;
         }
 
         public DockIcon(String path)
@@ -46,6 +61,9 @@ namespace WinDock
             ReflectionBitmap = CreateReflection(Bitmap);
 
             process = null;
+
+            Width = Configuration.IconSize;
+            Height = Configuration.IconSize;
         }
 
         Bitmap CreateReflection(Bitmap bitmap)
@@ -66,13 +84,6 @@ namespace WinDock
 
             return reflection;
         }
-
-        public String Path { get; set; }
-        public String DisplayName { get; set; }
-        public Bitmap Bitmap { get; private set; }
-        public Bitmap ReflectionBitmap { get; private set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
 
         private bool IsShortcut(String executable_path)
         {

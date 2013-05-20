@@ -10,15 +10,19 @@ namespace WinDock
     {
         static Configuration()
         {
+            TaskbarPinnedDirectory = "\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar";
             CanvasHeight = 200;
             CanvasWidth = 1280;
             DockHeight = 45;
             DockSideSlope = 25;
             DockBackgroundAlpha = 0.9;
             DockBackgroundColor = Color.FromArgb(120, 120, 120);
-            IconSize = 45;
+            IconSize = 50;
             IconMargin = 6;
         }
+
+        // Paths
+        public static String TaskbarPinnedDirectory { get; set; }
 
         // Canvas
         public static int CanvasHeight { get; set; }
