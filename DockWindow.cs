@@ -13,6 +13,7 @@ namespace WinDock
     {
         // Icons
         private List<DockIcon> icons = null;
+        private FloatingDockIcon floatingIcon = null;
 
         // Drawing
         private Bitmap bitmap = null;
@@ -25,6 +26,8 @@ namespace WinDock
         private int dockWidth = 0;
         private int placeholderIndex = -1;
         private int hoverIndex = -1;
+        private int mouseDownX = -1;
+        private int mouseDownY = -1;
 
         public DockWindow()
         {
@@ -33,6 +36,16 @@ namespace WinDock
             InitIcons();
             InitRefreshTimer();
             InitBitmap();
+
+            floatingIcon = new FloatingDockIcon();
+            Bitmap b = new Bitmap(Configuration.IconSize, Configuration.IconSize);
+            using (Graphics g = Graphics.FromImage(b))
+            {
+                Bitmap i = (Bitmap)Image.FromFile(Configuration.IconsFolder + Path.DirectorySeparatorChar + Configuration.RecycleBinImageFilenameE);
+                g.DrawImage(i, new Rectangle(0, 0, Configuration.IconSize, Configuration.IconSize));
+            }
+            floatingIcon.SetBitmap(b);
+            floatingIcon.MouseOffset = new Point(Configuration.IconSize / 2, Configuration.IconSize / 2);
         }
 
         private void InitIcons()
@@ -62,7 +75,7 @@ namespace WinDock
         {
             refreshTimer = new Timer();
             refreshTimer.Tick += new EventHandler(HandleTimerTick);
-            refreshTimer.Interval = 200;
+            refreshTimer.Interval = 100;
             refreshTimer.Enabled = true;
             refreshTimer.Start();
         }
@@ -71,6 +84,8 @@ namespace WinDock
         {
             MouseMove += new MouseEventHandler(HandleMouseMove);
             MouseClick += new MouseEventHandler(HandleMouseClick);
+            MouseDown += new MouseEventHandler(HandleMouseDown);
+            MouseUp += new MouseEventHandler(HandleMouseUp);
         }
 
         private void InitDragDropEvents()
@@ -106,6 +121,20 @@ namespace WinDock
             else
             {
                 hoverIndex = GetIndex(e.X);
+                if (hoverIndex >= 0 && hoverIndex < icons.Count)
+                {
+                    icons[hoverIndex].OnHover();
+                }
+            }
+
+            if (mouseDownX != -1 && mouseDownY != -1)
+            {
+                if (e.X != mouseDownX && e.Y != mouseDownY && !floatingIcon.Visible)
+                {
+                    floatingIcon.Show();
+                }
+
+                floatingIcon.SetDesktopLocation(Cursor.Position.X - floatingIcon.MouseOffset.X, Cursor.Position.Y - floatingIcon.MouseOffset.Y);
             }
 
             this.Refresh();
@@ -153,11 +182,26 @@ namespace WinDock
         {
             int index = GetIndex(e.X);
 
-            if (index >= 0 && index < numAppIcons)
+            if (index >= 0 && index < icons.Count)
             {
                 DockIcon icon = icons[index];
-                icon.Launch();
+                icon.OnClick();
             }
+        }
+
+        private void HandleMouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDownX = -1;
+            mouseDownY = -1;
+            floatingIcon.Hide();
+            this.Refresh();
+        }
+
+        private void HandleMouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDownX = e.X;
+            mouseDownY = e.Y;
+            this.Refresh();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -190,6 +234,33 @@ namespace WinDock
             graphics.DrawLine(new Pen(Color.FromArgb(alpha, 180, 180, 180), 3), edge_points[0], edge_points[1]);
         }
 
+        void UpdateIcons()
+        {
+            Point current = new Point((Configuration.CanvasWidth - dockWidth) / 2 + Configuration.IconMargin, 136);
+            int count = 0;
+
+            foreach (DockIcon icon in icons)
+            {
+                if (count == placeholderIndex)
+                {
+                    current.X += Configuration.IconSize + Configuration.IconMargin;
+                }
+                count++;
+
+                icon.X = current.X;
+                icon.Y = current.Y;
+
+                if (count == numAppIcons + 1)
+                {
+                    icon.Y += 20;
+                }
+
+                icon.Update(count);
+
+                current.X += icon.Width + Configuration.IconMargin;
+            }
+        }
+
         void DrawIcons(Graphics graphics)
         {
             if (runningIndicator == null)
@@ -197,64 +268,19 @@ namespace WinDock
                 runningIndicator = (Bitmap)Image.FromFile("C:\\Users\\William\\Desktop\\iconsFolder\\indicator.png");
             }
 
-            Point current = new Point((Configuration.CanvasWidth - dockWidth) / 2 + Configuration.IconMargin, 136);
             int count = 0;
 
             foreach (DockIcon icon in icons)
             {
-                if(count == placeholderIndex)
-                {
-                    current.X += Configuration.IconSize + Configuration.IconMargin;
-                }
-                else if (count == hoverIndex && hoverIndex < numAppIcons)
-                {
-                    float font_size = 10;
-                    String font_name = "Verdana";
-                    Font tooltip_font = new Font(font_name, font_size, FontStyle.Bold);
-                    SizeF tooltip_text_size = graphics.MeasureString(icon.DisplayName, tooltip_font);
-                    int left = current.X + (Configuration.IconSize / 2) - (int)(tooltip_text_size.Width / 2);
-
-                    // Base rectangle
-                    Rectangle tooltip_rectangle = new Rectangle(left, current.Y - 40, (int)tooltip_text_size.Width, (int)tooltip_text_size.Height + 4);
-                    graphics.FillRectangle(new SolidBrush(Color.FromArgb(200, 50, 50, 50)), tooltip_rectangle);
-
-                    // Tooltip text
-                    System.Drawing.Drawing2D.SmoothingMode old = graphics.SmoothingMode;
-                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                    graphics.DrawString(icon.DisplayName, tooltip_font, new SolidBrush(Color.FromArgb(200, 255, 255, 255)), new Point(left, current.Y - 38));
-                    graphics.SmoothingMode = old;
-                    
-                    // Rounded corners
-                    graphics.FillPie(new SolidBrush(Color.FromArgb(200, 50, 50, 50)), new Rectangle(left - 10, current.Y - 40, 20, (int)tooltip_text_size.Height + 4), 90, 180);
-                    graphics.FillPie(new SolidBrush(Color.FromArgb(200, 50, 50, 50)), new Rectangle(left + (int)tooltip_text_size.Width - 10, current.Y - 40, 20, (int)tooltip_text_size.Height + 4), 270, 180);
-
-                    // Arrow triangle
-                    Point[] tri_points = { new Point(left + (int)(tooltip_text_size.Width / 2) - 5, current.Y - 40 + 4 + (int)tooltip_text_size.Height),
-                                             new Point(left + (int)(tooltip_text_size.Width / 2) + 5, current.Y - 40 + 4 + (int)tooltip_text_size.Height),
-                                             new Point(left + (int)(tooltip_text_size.Width / 2), current.Y - 40 + 4 + (int)tooltip_text_size.Height + 5) };
-                    graphics.FillPolygon(new SolidBrush(Color.FromArgb(200, 50, 50, 50)), tri_points);
-                }
-
                 count++;
-
-                graphics.DrawImage(icon.Bitmap, current.X, current.Y, icon.Width, icon.Height);
-
-                if(icon.ReflectionBitmap != null)
-                    graphics.DrawImage(icon.ReflectionBitmap, current.X, current.Y + Configuration.IconSize, Configuration.IconSize, Configuration.IconSize);
-
-                if(count < numAppIcons)
-                {
-                    if (icon.Running)
-                        graphics.DrawImage(runningIndicator, current.X + 17, current.Y + 51, 10, 10);
-                }
-
-                current.X += icon.Width + Configuration.IconMargin;
+                icon.Paint(graphics);
             }
         }
 
         private void UpdateBitmap()
         {
             dockWidth = CalculateDockWidth();
+            UpdateIcons();
 
             using (Graphics graphics = Graphics.FromImage(this.bitmap))
             {
@@ -274,7 +300,8 @@ namespace WinDock
                 if (files.Length == 1)
                 {
                     e.Effect = DragDropEffects.Copy;
-                    icons.Insert(GetIndex(PointToClient(new Point(e.X, e.Y)).X), new DockIcon(files[0]));
+                    icons.Insert(GetIndex(PointToClient(new Point(e.X, e.Y)).X), new ApplicationIcon(files[0]));
+                    numAppIcons++;
                 }
             }
 
@@ -284,7 +311,14 @@ namespace WinDock
         private void HandleDragOver(object sender, DragEventArgs e)
         {
             if (placeholderIndex != -1)
+            {
                 placeholderIndex = GetIndex(PointToClient(new Point(e.X, e.Y)).X);
+                if (placeholderIndex > numAppIcons)
+                {
+                    placeholderIndex = -1;
+                }
+            }
+
 
             this.Refresh();
         }
@@ -337,7 +371,7 @@ namespace WinDock
             {
                 if (!file.EndsWith("desktop.ini"))
                 {
-                    icons.Add(new DockIcon(file));
+                    icons.Add(new ApplicationIcon(file));
                 }
             }
 

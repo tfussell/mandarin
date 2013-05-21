@@ -3,123 +3,90 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
-using IWshRuntimeLibrary;
-using System.Diagnostics;
 using System.Drawing.Imaging;
 
 namespace WinDock
 {
     class DockIcon
     {
-        Process process;
-        public bool Running {
-            get { return process != null && !process.HasExited; }
-        }
-        public String Path { get; set; }
         public String DisplayName { get; set; }
         public Bitmap Bitmap { get; protected set; }
-        public Bitmap ReflectionBitmap { get; private set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
-        public DockIcon(DockIcon cpy)
+        private bool hover = false;
+
+        public DockIcon(DockIcon d)
         {
-            Path = cpy.Path;
-            Bitmap = cpy.Bitmap;
-            ReflectionBitmap = cpy.ReflectionBitmap;
-            process = null;
-            DisplayName = cpy.DisplayName;
+            DisplayName = d.DisplayName;
+            Bitmap = d.Bitmap;
+            Width = d.Width;
+            Height = d.Height;
+            X = d.X;
+            Y = d.Y;
         }
 
         public DockIcon()
         {
-            Path = null;
-            Bitmap = null;
-            ReflectionBitmap = null;
-            process = null;
             DisplayName = null;
+            Bitmap = null;
         }
 
-        public DockIcon(String path)
+        public virtual void OnHover()
         {
-            Path = path;
-            String executable_path = path;
+            hover = true;
+        }
 
-            if (IsShortcut(path))
+        public virtual void OnClick()
+        {
+
+        }
+
+        public virtual void Update(int index)
+        {
+
+        }
+
+        public virtual void PaintTooltip(Graphics graphics)
+        {
+            float font_size = 10;
+            String font_name = "Verdana";
+            Font tooltip_font = new Font(font_name, font_size, FontStyle.Bold);
+            SizeF tooltip_text_size = graphics.MeasureString(DisplayName, tooltip_font);
+            int left = X + (Configuration.IconSize / 2) - (int)(tooltip_text_size.Width / 2);
+
+            // Base rectangle
+            Rectangle tooltip_rectangle = new Rectangle(left, Y - 40, (int)tooltip_text_size.Width, (int)tooltip_text_size.Height + 4);
+            graphics.FillRectangle(new SolidBrush(Color.FromArgb(200, 50, 50, 50)), tooltip_rectangle);
+
+            // Tooltip text
+            System.Drawing.Drawing2D.SmoothingMode old = graphics.SmoothingMode;
+            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+            graphics.DrawString(DisplayName, tooltip_font, new SolidBrush(Color.FromArgb(200, 255, 255, 255)), new Point(left, Y - 38));
+            graphics.SmoothingMode = old;
+
+            // Rounded corners
+            graphics.FillPie(new SolidBrush(Color.FromArgb(200, 50, 50, 50)), new Rectangle(left - 10, Y - 40, 20, (int)tooltip_text_size.Height + 4), 90, 180);
+            graphics.FillPie(new SolidBrush(Color.FromArgb(200, 50, 50, 50)), new Rectangle(left + (int)tooltip_text_size.Width - 10, Y - 40, 20, (int)tooltip_text_size.Height + 4), 270, 180);
+
+            // Arrow triangle
+            Point[] tri_points = { new Point(left + (int)(tooltip_text_size.Width / 2) - 5, Y - 40 + 4 + (int)tooltip_text_size.Height),
+                                             new Point(left + (int)(tooltip_text_size.Width / 2) + 5, Y - 40 + 4 + (int)tooltip_text_size.Height),
+                                             new Point(left + (int)(tooltip_text_size.Width / 2), Y - 40 + 4 + (int)tooltip_text_size.Height + 5) };
+            graphics.FillPolygon(new SolidBrush(Color.FromArgb(200, 50, 50, 50)), tri_points);
+        }
+
+        public virtual void Paint(Graphics graphics)
+        {
+            if (hover)
             {
-                DisplayName = System.IO.Path.GetFileNameWithoutExtension(path);
-                executable_path = ExtractExecutableFromShortcut(path);
+                //PaintTooltip(graphics);
+                hover = false;
             }
 
-            Bitmap = ExtractIconBitmap(executable_path);
-
-            if (Bitmap == null)
-            {
-                Bitmap = Icon.ExtractAssociatedIcon(executable_path).ToBitmap();
-            }
-
-            ReflectionBitmap = CreateReflection(Bitmap);
-
-            process = null;
-
-            Width = Configuration.IconSize;
-            Height = Configuration.IconSize;
-        }
-
-        Bitmap CreateReflection(Bitmap bitmap)
-        {
-            Bitmap reflection = new Bitmap(bitmap.Width, bitmap.Height);
-
-            using (Graphics graphics = Graphics.FromImage(reflection))
-            {
-                ColorMatrix matrix = new ColorMatrix();
-                matrix.Matrix33 = 0.3F;
-                ImageAttributes attributes = new ImageAttributes();
-                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-
-                graphics.DrawImage(bitmap, new Rectangle(0, 0, reflection.Width, reflection.Width), 0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, attributes);
-            }
-
-            reflection.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
-            return reflection;
-        }
-
-        private bool IsShortcut(String executable_path)
-        {
-            return executable_path.ToLower().EndsWith(".lnk");
-        }
-
-        private String ExtractExecutableFromShortcut(String executable_path)
-        {
-            WshShell WShell = new WshShell();
-            IWshShortcut link = (IWshShortcut)WShell.CreateShortcut(executable_path);
-
-            return link.TargetPath;
-        }
-
-        private Bitmap ExtractIconBitmap(string path)
-        {
-            // Try for the biggest icon and then work down
-            for (int size = 512; size > 16; size /= 2)
-            {
-                IntPtr[] phicon = new IntPtr[] { IntPtr.Zero };
-                IntPtr[] piconid = new IntPtr[] { IntPtr.Zero };
-
-                Win32.PrivateExtractIcons(path, 0, size, size, phicon, piconid, 1, 0);
-
-                if (phicon[0] != IntPtr.Zero)
-                {
-                    return System.Drawing.Icon.FromHandle(phicon[0]).ToBitmap();
-                }
-            }
-
-            return null;
-        }
-
-        public void Launch()
-        {
-            process = Process.Start(Path);
+            graphics.DrawImage(Bitmap, X, Y, Width, Height);
         }
     }
 }
