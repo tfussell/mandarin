@@ -1,3 +1,1 @@
-*.csproj
-bin/*
-obj/*
+*.sdf
