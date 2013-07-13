@@ -1,0 +1,18 @@
+﻿using System;
+
+namespace WinDock3.Business.Events
+{
+    public enum DockDropType
+    {
+        None,
+        File,
+        DockItem
+    }
+
+    public class FileDropEventArgs : EventArgs
+    {
+        public int Index;
+        public DockDropType DropType;
+        public string File;
+    }
+}

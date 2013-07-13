@@ -15,24 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main.h">
+    <ClInclude Include="..\..\DOSk\WinEventGlobalHook\main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WinEventHookManaged.h">
+    <ClInclude Include="..\..\DOSk\WinEventGlobalHook\WinEventHookManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WinEventHookNative.h">
+    <ClInclude Include="..\..\DOSk\WinEventGlobalHook\WinEventHookNative.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="..\..\DOSk\WinEventGlobalHook\WinEventHookNative.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinEventHookNative.cpp">
+    <ClCompile Include="..\..\DOSk\WinEventGlobalHook\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinEventHookManaged.cpp">
+    <ClCompile Include="..\..\DOSk\WinEventGlobalHook\WinEventHookManaged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

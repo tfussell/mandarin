@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E3F806C7-4449-4E72-805B-90E67133619D}</ProjectGuid>
+    <ProjectGuid>{CA39633B-9E4A-4BF9-8CFA-802CCB053C86}</ProjectGuid>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>WinEventGlobalHook</RootNamespace>
+    <RootNamespace>WindowsManagedApi</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -86,7 +86,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>user32.lib</AdditionalDependencies>
+      <AdditionalDependencies>gdi32.lib; shell32.lib; user32.lib; msi.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -98,7 +98,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>user32.lib</AdditionalDependencies>
+      <AdditionalDependencies>gdi32.lib; shell32.lib; user32.lib; msi.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -121,24 +121,34 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
+      <AdditionalDependencies>shell32.lib;user32.lib;msi.lib;gdi32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\DOSk\WinEventGlobalHook\main.h" />
-    <ClInclude Include="..\..\DOSk\WinEventGlobalHook\WinEventHookManaged.h" />
-    <ClInclude Include="..\..\DOSk\WinEventGlobalHook\WinEventHookNative.h" />
+    <ClInclude Include="..\..\DOSk\WindowsShellManaged\Gdi32.h" />
+    <ClInclude Include="..\..\DOSk\WindowsShellManaged\Msi.h" />
+    <ClInclude Include="..\..\DOSk\WindowsShellManaged\NotificationAreaManaged.h" />
+    <ClInclude Include="..\..\DOSk\WindowsShellManaged\NotificationAreaNative.h" />
+    <ClInclude Include="..\..\DOSk\WindowsShellManaged\NotifyIconManaged.h" />
+    <ClInclude Include="..\..\DOSk\WindowsShellManaged\NotifyIconNative.h" />
+    <ClInclude Include="..\..\DOSk\WindowsShellManaged\Shell32.h" />
+    <ClInclude Include="..\..\DOSk\WindowsShellManaged\User32.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\DOSk\WinEventGlobalHook\main.cpp" />
-    <ClCompile Include="..\..\DOSk\WinEventGlobalHook\WinEventHookManaged.cpp" />
-    <ClCompile Include="..\..\DOSk\WinEventGlobalHook\WinEventHookNative.cpp" />
+    <ClCompile Include="..\..\DOSk\WindowsShellManaged\Gdi32.cpp" />
+    <ClCompile Include="..\..\DOSk\WindowsShellManaged\Msi.cpp" />
+    <ClCompile Include="..\..\DOSk\WindowsShellManaged\NotificationAreaManaged.cpp" />
+    <ClCompile Include="..\..\DOSk\WindowsShellManaged\NotificationAreaNative.cpp" />
+    <ClCompile Include="..\..\DOSk\WindowsShellManaged\NotifyIconManaged.cpp" />
+    <ClCompile Include="..\..\DOSk\WindowsShellManaged\NotifyIconNative.cpp" />
+    <ClCompile Include="..\..\DOSk\WindowsShellManaged\Shell32.cpp" />
+    <ClCompile Include="..\..\DOSk\WindowsShellManaged\User32.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

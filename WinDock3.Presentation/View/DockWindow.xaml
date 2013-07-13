@@ -1,0 +1,39 @@
+﻿<wdc:TransparentImageGridWindow x:Class="WinDock3.Presentation.View.DockWindow"
+                                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                xmlns:wdvm="clr-namespace:WinDock3.Presentation.ViewModel"
+                                xmlns:wdv="clr-namespace:WinDock3.Presentation.View"
+                                xmlns:wdc="clr-namespace:WinDock3.Presentation.Controls"
+                                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                mc:Ignorable="d"
+                                d:DataContext="{d:DesignInstance Type=wdvm:DockViewModel,IsDesignTimeCreatable=True}"
+                                Title="DockWindow"
+                                ShowInTaskbar="False"
+                                Topmost="True"
+                                Loaded="Window_Loaded"
+                                AllowDrop="True"
+                                SizeToContent="WidthAndHeight"
+                                SourceInitialized="Window_SourceInitialized"
+                                BlurEnabled="True"
+                                GridStyle="Dock"
+                                SourceImage="C:\Users\William\Desktop\background2.png">
+    <Window.Resources>
+        <DataTemplate x:Key="DockItemTemplate">
+            <wdv:DockItem />
+        </DataTemplate>
+    </Window.Resources>
+        <StackPanel Margin="20,0,20,15" 
+          Orientation="Horizontal"
+          x:Name="LayoutRoot">
+            <ItemsControl ItemsSource="{Binding Items}"
+                      ItemTemplate="{StaticResource DockItemTemplate}"
+                      Background="Transparent">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
+</wdc:TransparentImageGridWindow>
