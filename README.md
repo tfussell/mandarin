@@ -1,7 +1,7 @@
-# WinDock v0.5-alpha
+# WinDock v0.6-alpha
 
-WinDock is a graphical dock for Windows&copy; in the style of [Docky](http://wiki.go-docky.com) for GNU/Linux.
-It is currently a work-in-progress and is not distributed with binaries yet.
+WinDock is a graphical application launcher written in C#/WPF for Windows&copy; in the style of [Docky](http://wiki.go-docky.com) or Cairo-Dock (http://glx-dock.org).
+It is currently a work-in-progress and is not ready for general use.
 
 ## Features
 
@@ -12,4 +12,4 @@ It is currently a work-in-progress and is not distributed with binaries yet.
 
 ## Building WinDock
 
-Building WinDock should be easy, though I haven't yet tested it on many environments. It requires a minimum of Microsoft&copy; .NET Framwork v4 and Windows 7 with Aero.
+Building WinDock should be easy, though I haven't yet tested it on many environments. It requires a minimum of Microsoft&copy; .NET Framwork v4 and Windows 7.
