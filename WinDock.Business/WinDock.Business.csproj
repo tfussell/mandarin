@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A3B29604-31C2-405A-BFE6-7DF65014424F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WinDock.Business</RootNamespace>
+    <AssemblyName>WinDock.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\Windows API Code Pack 1.1\binaries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application.cs" />
+    <Compile Include="ContextMenu\ContextMenu.cs" />
+    <Compile Include="ContextMenu\ContextMenuItem.cs" />
+    <Compile Include="ContextMenu\IconContextMenuItem.cs" />
+    <Compile Include="ContextMenu\IContextMenuProvider.cs" />
+    <Compile Include="ContextMenu\SeparatorContextMenuItem.cs" />
+    <Compile Include="ContextMenu\SubMenuContextMenuItem.cs" />
+    <Compile Include="ContextMenu\TextContextMenuItem.cs" />
+    <Compile Include="ContextMenu\ToggleContextMenuItem.cs" />
+    <Compile Include="Core\Dock.cs" />
+    <Compile Include="Core\ItemGroupList.cs" />
+    <Compile Include="Events\FileDropEventArgs.cs" />
+    <Compile Include="Events\ItemsChangedEventArgs.cs" />
+    <Compile Include="Core\DockItemGroup.cs" />
+    <Compile Include="Core\SingleDockItemGroup.cs" />
+    <Compile Include="Core\DockItem.cs" />
+    <Compile Include="Core\IconDockItem.cs" />
+    <Compile Include="Persistence\JsonSerializer.cs" />
+    <Compile Include="Persistence\Serializer.cs" />
+    <Compile Include="Persistence\ThemeFormats\DockyThemeFormat.cs" />
+    <Compile Include="Persistence\ThemeFormats\IThemeFormat.cs" />
+    <Compile Include="Persistence\ThemeFormats\StandardThemeFormat.cs" />
+    <Compile Include="Persistence\ThemeSerializer.cs" />
+    <Compile Include="Plugins\Applications\ApplicationDockItem.cs" />
+    <Compile Include="Plugins\Applications\ApplicationDockItemGroup.cs" />
+    <Compile Include="Plugins\Applications\AppUserModelId.cs" />
+    <Compile Include="Plugins\Applications\DesktopEntry.cs" />
+    <Compile Include="Plugins\Applications\DesktopEntryManager.cs" />
+    <Compile Include="Plugins\Applications\Taskbar.cs" />
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="Plugins\RecycleBin\RecycleBinIcon.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\AppSettings.cs" />
+    <Compile Include="Settings\ConfigurationController.cs" />
+    <Compile Include="Settings\DockConfiguration.cs" />
+    <Compile Include="Settings\Profile.cs" />
+    <Compile Include="Settings\ServiceConfiguration.cs" />
+    <Compile Include="Settings\ThemeConfiguration.cs" />
+    <Compile Include="Settings\UserAppSettings.cs" />
+    <Compile Include="Core\Paths.cs" />
+    <Compile Include="Themes\BoundableTheme.cs" />
+    <Compile Include="Themes\DockItemStyle.cs" />
+    <Compile Include="Themes\DockStyle.cs" />
+    <Compile Include="Themes\Theme.cs" />
+    <Compile Include="Themes\ThemeController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plugins\Clock\" />
+    <Folder Include="Plugins\NotificationArea\" />
+    <Folder Include="Plugins\StartMenu\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WindowsManagedApi\WindowsManagedApi.vcxproj">
+      <Project>{9287FAFD-38A4-4E6D-8972-70B144D66C04}</Project>
+      <Name>WindowsManagedApi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

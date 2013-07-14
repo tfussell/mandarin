@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="WinDock.Presentation.Views.DockItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wdv="clr-namespace:WinDock.Presentation.Views"
+             xmlns:wdvm="clr-namespace:WinDock.PresentationModel.ViewModels;assembly=WinDock.PresentationModel"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             d:DataContext="{d:DesignInstance Type=wdvm:DockItemViewModel,IsDesignTimeCreatable=True}"
+             mc:Ignorable="d"
+             AllowDrop="False">
+    <UserControl.Resources>
+
+    </UserControl.Resources>
+    <Button Focusable="False"
+            Width="{Binding Width}"
+            Height="{Binding Height}"
+            MouseEnter="Button_MouseEnter"
+            MouseLeave="Button_MouseLeave"
+            Background="Transparent"
+            BorderThickness="0"
+            Margin="5"
+            MouseUp="Button_MouseUp">
+        <Image Source="{Binding IconImage}" />
+        <Button.Style>
+            <Style>
+                <Setter Property="ToolTipService.IsEnabled" Value="True" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Name}"
+                                 Value="{x:Null}">
+                        <Setter Property="ToolTipService.IsEnabled"
+                                Value="False" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Button.Style>
+        <Button.Template>
+            <ControlTemplate TargetType="Button">
+                <ContentPresenter Content="{TemplateBinding Content}"/>
+            </ControlTemplate>
+        </Button.Template>
+    </Button>
+</UserControl>

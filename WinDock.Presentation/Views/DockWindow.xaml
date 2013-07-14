@@ -1,0 +1,50 @@
+﻿<wdc:TransparentImageGridWindow x:Class="WinDock.Presentation.Views.DockWindow"
+                                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                xmlns:wdvm="clr-namespace:WinDock.PresentationModel.ViewModels;assembly=WinDock.PresentationModel"
+                                xmlns:wdc="clr-namespace:WinDock.Presentation.Controls"
+                                xmlns:wdp="clr-namespace:WinDock.Presentation"
+                                xmlns:wdbc="clr-namespace:WinDock.Business.Core;assembly=WinDock.Business"
+                                xmlns:wdv="clr-namespace:WinDock.Presentation.Views"
+                                xmlns:system="clr-namespace:System;assembly=mscorlib"
+                                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                mc:Ignorable="d"
+                                d:DataContext="{d:DesignInstance Type=wdvm:DockViewModel,IsDesignTimeCreatable=True}"
+                                Title="DockWindow"
+                                ShowInTaskbar="False"
+                                Topmost="True"
+                                Loaded="Window_Loaded"
+                                AllowDrop="True"
+                                SizeToContent="WidthAndHeight"
+                                SourceInitialized="Window_SourceInitialized"
+                                BlurEnabled="True"
+                                GridStyle="Dock"
+                                SourceImage="C:\Users\William\Desktop\background2.png">
+    
+    <Window.Resources>
+        <DataTemplate x:Key="DockItemTemplate">
+            <wdv:DockItem />
+        </DataTemplate>
+        <DataTemplate x:Key="SeparatorTemplate">
+            <Image Width="30" Source="C:\Users\William\Documents\Visual Studio 2010\Projects\WinDock\Resources\IconImages\separator.png" Cursor="SizeNS" />
+        </DataTemplate>
+        <wdp:DockItemTemplateSelector
+            DockItemTemplate="{StaticResource DockItemTemplate}"
+            SeparatorTemplate="{StaticResource SeparatorTemplate}"
+            x:Key="DockItemTemplateSelector" />
+    </Window.Resources>
+        <StackPanel Margin="20,0,20,15"
+                    Orientation="Horizontal"
+                    x:Name="LayoutRoot">
+            <ItemsControl ItemsSource="{Binding Items}"
+                          ItemTemplateSelector="{StaticResource DockItemTemplateSelector}"
+                          Background="Transparent">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
+</wdc:TransparentImageGridWindow>

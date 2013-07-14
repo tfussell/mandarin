@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BC906D66-D8F5-46F0-BAB1-271C6627C0F2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Resources</RootNamespace>
+    <AssemblyName>Resources</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Docks\Dock1\dock.json" />
+    <None Include="Docks\Dock1\Pinned\Google Chrome.lnk" />
+    <None Include="Docks\Dock1\Pinned\Guild Wars 2.lnk" />
+    <None Include="Docks\Dock1\Pinned\IDLE %28Python GUI%29.lnk" />
+    <None Include="Docks\Dock1\Pinned\Microsoft Visual Studio 2010.lnk" />
+    <None Include="Docks\Dock1\Pinned\Microsoft Word 2010.lnk" />
+    <None Include="Docks\Dock1\Pinned\Oracle VM VirtualBox.lnk" />
+    <None Include="Docks\Dock1\Pinned\SSH, Telnet and Rlogin client.lnk" />
+    <None Include="Docks\Dock1\Pinned\Steam.lnk" />
+    <None Include="Docks\Dock1\Pinned\test.desktop" />
+    <None Include="Docks\Dock1\Pinned\test.directory" />
+    <None Include="Docks\Dock1\Pinned\test.lnk" />
+    <None Include="Docks\Dock1\Pinned\testdir.lnk" />
+    <None Include="Docks\Dock1\Pinned\testlink.desktop" />
+    <None Include="Docks\Dock1\Pinned\Windows Explorer.lnk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="IconImages\200px-TI-89Titanium.png" />
+    <Content Include="IconImages\321718861.png" />
+    <Content Include="IconImages\ActivityMonitor.png" />
+    <Content Include="IconImages\AI_Application_Icon.png" />
+    <Content Include="IconImages\AOL Instant Messenger %28AIM%29.png" />
+    <Content Include="IconImages\bridge.png" />
+    <Content Include="IconImages\Dreamweaver.png" />
+    <Content Include="IconImages\Flash.png" />
+    <Content Include="IconImages\ID_App_Icon.png" />
+    <Content Include="IconImages\indicator.png" />
+    <Content Include="IconImages\itunes_icon.png" />
+    <Content Include="IconImages\Java.png" />
+    <Content Include="IconImages\Microsoft Office - Excel.png" />
+    <Content Include="IconImages\Microsoft Office - OneNote.png" />
+    <Content Include="IconImages\Microsoft Office - Outlook.png" />
+    <Content Include="IconImages\Microsoft Office - PowerPoint.png" />
+    <Content Include="IconImages\Microsoft Office - Publisher.png" />
+    <Content Include="IconImages\Microsoft Office - Visio.png" />
+    <Content Include="IconImages\Microsoft Office - Word.png" />
+    <Content Include="IconImages\Oblivion_Icon_for_Object_Dock%28www.skinbase.org%29.png" />
+    <Content Include="IconImages\post-20199-1155284782.png" />
+    <Content Include="IconImages\PS_AppIcon.png" />
+    <Content Include="IconImages\putty.png" />
+    <Content Include="IconImages\python-crystal.png" />
+    <Content Include="IconImages\separator.png" />
+    <Content Include="IconImages\Terminal.png" />
+    <Content Include="IconImages\Trash_Empty.png" />
+    <Content Include="IconImages\Trash_Full.png" />
+    <Content Include="IconImages\Windows Media Player.png" />
+    <Content Include="IconImages\word_mac_2008_icon.png" />
+    <Content Include="IconImages\wow.png" />
+    <Content Include="Plugins\Applications.dll" />
+    <Content Include="Plugins\Applications.pdb" />
+    <Content Include="Plugins\Clock.dll" />
+    <Content Include="Plugins\Clock.pdb" />
+    <Content Include="Plugins\Example.dll" />
+    <Content Include="Plugins\Example.pdb" />
+    <Content Include="Plugins\Folders.dll" />
+    <Content Include="Plugins\Folders.pdb" />
+    <Content Include="Plugins\Microsoft.WindowsAPICodePack.dll" />
+    <Content Include="Plugins\Microsoft.WindowsAPICodePack.pdb" />
+    <Content Include="Plugins\Microsoft.WindowsAPICodePack.Shell.dll" />
+    <Content Include="Plugins\Microsoft.WindowsAPICodePack.Shell.pdb" />
+    <Content Include="Plugins\MinimizedWindows.dll" />
+    <Content Include="Plugins\MinimizedWindows.pdb" />
+    <Content Include="Plugins\NotificationArea.dll" />
+    <Content Include="Plugins\NotificationArea.pdb" />
+    <Content Include="Plugins\Plugins.dll" />
+    <Content Include="Plugins\Plugins.pdb" />
+    <Content Include="Plugins\RecycleBin.dll" />
+    <Content Include="Plugins\RecycleBin.pdb" />
+    <Content Include="Plugins\StartMenu.dll" />
+    <Content Include="Plugins\StartMenu.pdb" />
+    <Content Include="Plugins\Weather.dll" />
+    <Content Include="Plugins\Weather.pdb" />
+    <Content Include="Plugins\WinDock.Business.dll" />
+    <Content Include="Plugins\WinDock.Business.pdb" />
+    <Content Include="Plugins\WinDock3.Business.dll" />
+    <Content Include="Plugins\Wma.NotificationArea.dll" />
+    <Content Include="Plugins\Wma.NotificationArea.pdb" />
+    <Content Include="Plugins\Wma.Shell32.dll" />
+    <Content Include="Plugins\Wma.Shell32.pdb" />
+    <Content Include="Plugins\Wma.User32.dll" />
+    <Content Include="Plugins\Wma.User32.pdb" />
+    <Content Include="Themes\MountainLion\background.png" />
+    <Content Include="Themes\MountainLion\background.svg" />
+    <Content Include="Themes\MountainLion\badge.svg" />
+    <Content Include="Themes\MountainLion\menu.png" />
+    <Content Include="Themes\MountainLion\menu.svg" />
+    <Content Include="Themes\MountainLion\stretch_separator.svg" />
+    <Content Include="Themes\MountainLion\tooltip.png" />
+    <Content Include="Themes\MountainLion\tooltip.svg" />
+    <Content Include="Themes\Platform\background.png" />
+    <Content Include="Themes\Platform\menu.png" />
+    <Content Include="Themes\Platform\tooltip.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

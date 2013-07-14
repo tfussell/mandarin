@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:wdv="clr-namespace:WinDock.Presentation.Views"
+                    xmlns:wdbc="clr-namespace:WinDock.Business.Core;assembly=WinDock.Business"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type system:DBNull}">
+                <Separator />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type wdv:DockItem}">
+                <wdv:DockItem />
+            </DataTemplate>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

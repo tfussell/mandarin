@@ -1,69 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="WindowsManagedApi.Gdi">
+      <UniqueIdentifier>{60526869-d036-4b1a-81d3-19bd4d395471}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="WindowsManagedApi.User32">
+      <UniqueIdentifier>{50c87695-d94f-4547-b78d-9ab738cba6fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Common">
+      <UniqueIdentifier>{5416a87d-3aab-4e60-8271-70101c155125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WindowsManagedApi.Shell32">
+      <UniqueIdentifier>{dbc7b8c8-5543-4a72-b411-e842f8e88a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WindowsManagedApi.Msi">
+      <UniqueIdentifier>{4e7e239d-7705-45c2-95e4-695c0736eb50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WindowsManagedApi.Kernel32">
+      <UniqueIdentifier>{e71a8913-0acb-41c4-9bf9-4f53daedd36e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WindowsManagedApi.NotificationArea">
+      <UniqueIdentifier>{f2881f8d-bf99-42b7-ba42-92ee059fabce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\DOSk\WindowsShellManaged\Gdi32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DOSk\WindowsShellManaged\Msi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DOSk\WindowsShellManaged\NotificationAreaManaged.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DOSk\WindowsShellManaged\NotificationAreaNative.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DOSk\WindowsShellManaged\NotifyIconManaged.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DOSk\WindowsShellManaged\NotifyIconNative.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DOSk\WindowsShellManaged\Shell32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DOSk\WindowsShellManaged\User32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="Common\AssemblyInfo.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsManagedApi.User32\User32.cpp">
+      <Filter>WindowsManagedApi.User32</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsManagedApi.Shell32\Shell32.cpp">
+      <Filter>WindowsManagedApi.Shell32</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsManagedApi.Msi\Msi.cpp">
+      <Filter>WindowsManagedApi.Msi</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsManagedApi.Kernel32\Kernel32.cpp">
+      <Filter>WindowsManagedApi.Kernel32</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsManagedApi.Gdi\Gdi.cpp">
+      <Filter>WindowsManagedApi.Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsManagedApi.NotificationArea\NotificationAreaManaged.cpp">
+      <Filter>WindowsManagedApi.NotificationArea</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsManagedApi.NotificationArea\NotificationAreaNative.cpp">
+      <Filter>WindowsManagedApi.NotificationArea</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsManagedApi.NotificationArea\NotifyIconManaged.cpp">
+      <Filter>WindowsManagedApi.NotificationArea</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsManagedApi.NotificationArea\NotifyIconNative.cpp">
+      <Filter>WindowsManagedApi.NotificationArea</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\DOSk\WindowsShellManaged\Shell32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DOSk\WindowsShellManaged\User32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DOSk\WindowsShellManaged\Gdi32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DOSk\WindowsShellManaged\Msi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DOSk\WindowsShellManaged\NotificationAreaManaged.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DOSk\WindowsShellManaged\NotificationAreaNative.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DOSk\WindowsShellManaged\NotifyIconManaged.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DOSk\WindowsShellManaged\NotifyIconNative.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="WindowsManagedApi.User32\User32.h">
+      <Filter>WindowsManagedApi.User32</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsManagedApi.Shell32\Shell32.h">
+      <Filter>WindowsManagedApi.Shell32</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsManagedApi.Msi\Msi.h">
+      <Filter>WindowsManagedApi.Msi</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsManagedApi.Kernel32\Kernel32.h">
+      <Filter>WindowsManagedApi.Kernel32</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsManagedApi.Gdi\Gdi.h">
+      <Filter>WindowsManagedApi.Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsManagedApi.NotificationArea\NotificationAreaManaged.h">
+      <Filter>WindowsManagedApi.NotificationArea</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsManagedApi.NotificationArea\NotificationAreaNative.h">
+      <Filter>WindowsManagedApi.NotificationArea</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsManagedApi.NotificationArea\NotifyIconManaged.h">
+      <Filter>WindowsManagedApi.NotificationArea</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsManagedApi.NotificationArea\NotifyIconNative.h">
+      <Filter>WindowsManagedApi.NotificationArea</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
