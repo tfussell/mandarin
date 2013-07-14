@@ -1,6 +1,6 @@
 # WinDock v0.6-alpha
 
-WinDock is a graphical application launcher written in C#/WPF for Windows&copy; in the style of [Docky](http://wiki.go-docky.com) or Cairo-Dock (http://glx-dock.org).
+WinDock is a graphical application launcher written in C#/WPF for Windows&copy; in the style of [Docky](http://wiki.go-docky.com) or [Cairo-Dock](http://glx-dock.org).
 It is currently a work-in-progress and is not ready for general use.
 
 ## Features
