@@ -1,3 +1,7 @@
 *.sdf
 *.suo
 *~
+bin/
+obj/
+x64/
+Build/

@@ -49,6 +49,7 @@
       <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF4\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF4\System.Windows.Interactivity.dll</HintPath>
@@ -76,10 +77,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\ImageGridRenderers\ContextMenuGridRenderer.cs" />
-    <Compile Include="Controls\ImageGridRenderers\DockGridRenderer.cs" />
-    <Compile Include="Controls\ImageGridRenderers\IImageGridRenderer.cs" />
-    <Compile Include="Controls\TransparentImageGridWindow.cs" />
     <Compile Include="DockItemTemplateSelector.cs" />
     <Compile Include="Views\DockContextMenu.xaml.cs">
       <DependentUpon>DockContextMenu.xaml</DependentUpon>
@@ -93,6 +90,7 @@
     <Compile Include="Views\DockWindow.xaml.cs">
       <DependentUpon>DockWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfScreen.cs" />
     <Page Include="Assets\MainSkin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -110,8 +108,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DockWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -38,10 +38,10 @@ namespace WinDock.Presentation.Views
                 contextMenu.DataContext = contextMenuModel;
                 contextMenu.WindowStartupLocation = WindowStartupLocation.Manual;
                 var position = PointToScreen(new Point(0, 0));
-                contextMenu.Left = position.X + RenderSize.Width / 2 - contextMenu.RenderSize.Width / 2;
+                contextMenu.Left = position.X - 10;
                 contextMenu.Top = position.Y;
                 contextMenu.Show();
-                contextMenu.Left = position.X + RenderSize.Width / 2 - contextMenu.RenderSize.Width / 2;
+                contextMenu.Left = position.X - 10;
                 contextMenu.Top = position.Y - contextMenu.Height;
             }
         }
