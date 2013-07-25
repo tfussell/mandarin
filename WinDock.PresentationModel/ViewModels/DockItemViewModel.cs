@@ -13,7 +13,7 @@ namespace WinDock.PresentationModel.ViewModels
 {
     public class DockItemViewModel : ViewModelBase
     {
-        public const string IconImagePropertyName = "Item";
+        public const string IconImagePropertyName = "IconImage";
         public const string NamePropertyName = "Name";
         public const string WidthPropertyName = "Width";
         public const string HeightPropertyName = "Height";
@@ -106,10 +106,7 @@ namespace WinDock.PresentationModel.ViewModels
             if (model != null)
             {
                 Model = model;
-                model.PropertyChanged += (s, e) =>
-                {
-
-                };
+                model.ImageChanged += (s, e) => IconImage = ImageToBitmapSource(model.Image);
 
                 Model = model;
                 IconImage = ImageToBitmapSource(model.Image);
@@ -136,6 +133,7 @@ namespace WinDock.PresentationModel.ViewModels
             ms.Seek(0, SeekOrigin.Begin);
             bi.StreamSource = ms;
             bi.EndInit();
+            bi.Freeze();
 
             return bi;
         }

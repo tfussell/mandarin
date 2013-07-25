@@ -46,6 +46,7 @@
         <Style x:Key="TransparentMenuItem" TargetType="{x:Type MenuItem}">
             <Setter Property="Header" Value="{Binding Label}" />
             <Setter Property="ItemsSource" Value="{Binding Submenu}" />
+            <Setter Property="Command" Value="{Binding Action}" />
             <Setter Property="Foreground" Value="#CCFFFFFF" />
             <Setter Property="Template">
                 <Setter.Value>

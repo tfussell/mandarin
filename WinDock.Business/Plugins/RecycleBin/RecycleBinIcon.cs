@@ -56,6 +56,10 @@ namespace WinDock.Plugins.RecycleBin
             {
                 Image = IsEmpty ? empty : full;
             };
+            folderWatcher.Deleted += (sender, args) =>
+            {
+                Image = IsEmpty ? empty : full;
+            };
 
             Image = IsEmpty ? empty : full;
         }
