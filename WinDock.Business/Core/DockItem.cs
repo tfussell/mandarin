@@ -12,32 +12,17 @@ namespace WinDock.Business.Core
     /// </summary>
     public abstract class DockItem : INotifyPropertyChanged, IDisposable
     {
-        #region Events
-        public event EventHandler PaintRequested = delegate {  };
-        public event EventHandler MouseHover = delegate { };
-        public event EventHandler MouseClick = delegate { };
-        public event EventHandler MouseDown = delegate { };
-        public event EventHandler MouseUp = delegate { }; 
-        public event EventHandler MouseDoubleClick = delegate { };
-        public event EventHandler MouseMove = delegate { }; 
-        public event EventHandler MouseEnter = delegate { };
-        public event EventHandler MouseLeave = delegate { };
-        public event EventHandler NameChanged = delegate { };
-        public event EventHandler Resize = delegate { };
-        public event EventHandler ImageChanged = delegate { }; 
-        #endregion
-
         #region Properties
         public abstract IEnumerable<DockItemAction> MenuItems { get; }
 
-        private bool Active
+        public bool Active
         {
             get { return active; }
             set
             {
                 if (value == active) return;
                 active = value;
-                OnRequestPaint();
+                PropertyChanged(this, new PropertyChangedEventArgs("Active"));
             }
         }
 
@@ -48,7 +33,7 @@ namespace WinDock.Business.Core
             {
                 if (Equals(image, value)) return;
                 image = value;
-                OnImageChange(image);
+                PropertyChanged(this, new PropertyChangedEventArgs("Image"));
             }
         }
 
@@ -61,7 +46,7 @@ namespace WinDock.Business.Core
             {
                 if (Equals(bounds, value)) return;
                 bounds = value;
-                OnResize(this, new EventArgs());
+                PropertyChanged(this, new PropertyChangedEventArgs("Size"));
             }
         }
 
@@ -84,7 +69,7 @@ namespace WinDock.Business.Core
             {
                 if (Equals(bounds.Width, value)) return;
                 bounds.Width = value;
-                OnResize(this, new EventArgs());
+                PropertyChanged(this, new PropertyChangedEventArgs("Size"));
             }
         }
 
@@ -95,7 +80,7 @@ namespace WinDock.Business.Core
             {
                 if (Equals(bounds.Height, value)) return;
                 bounds.Height = value;
-                OnResize(this, new EventArgs());
+                PropertyChanged(this, new PropertyChangedEventArgs("Size"));
             }
         }
 
@@ -110,7 +95,7 @@ namespace WinDock.Business.Core
             {
                 if (Equals(name, value)) return;
                 name = value;
-                OnNameChanged(this, new EventArgs());
+                PropertyChanged(this, new PropertyChangedEventArgs("Name"));
             }
         }
 
@@ -121,7 +106,7 @@ namespace WinDock.Business.Core
             {
                 if (Equals(style, value)) return;
                 style = value;
-                OnStyleChanged(this, new EventArgs());
+                PropertyChanged(this, new PropertyChangedEventArgs("Style"));
             }
         }
         #endregion
@@ -153,34 +138,9 @@ namespace WinDock.Business.Core
         }
 
         #region Mouse event handlers
-        public void HandleMouseClickEvent(object sender, EventArgs e)
+        public void OnLeftClick()
         {
-            OnMouseClick(sender, e);
-        }
-
-        public void HandleMouseDownEvent(object sender, EventArgs e)
-        {
-            OnMouseDown(sender, e);
-        }
-
-        public void HandleMouseUpEvent(object sender, EventArgs e)
-        {
-            OnMouseUp(sender, e);
-        }
-
-        internal void HandleMouseDoubleClickEvent(object sender, EventArgs e)
-        {
-            OnMouseDoubleClick(sender, e);
-        }
-
-        public void HandleMouseMoveEvent(object sender, EventArgs e)
-        {
-            OnMouseMove(sender, e);
-        }
-
-        public void HandleMouseHoverEvent(object sender, EventArgs e)
-        {
-            MouseHover(sender, e);
+            OnLeftClick(this, new EventArgs());
         }
         #endregion
 
@@ -264,64 +224,9 @@ namespace WinDock.Business.Core
         #endregion
 
         #region Event Callbacks
-        protected virtual void OnResize(object sender, EventArgs e)
+        protected virtual void OnLeftClick(object sender, EventArgs e)
         {
-            Resize(sender, e);
-        }
-
-        protected virtual void OnStyleChanged(object sender, EventArgs e)
-        {
-            PaintRequested(sender, e);
-        }
-
-        protected virtual void OnMouseClick(object sender, EventArgs e)
-        {
-            MouseClick(sender, e);
-        }
-
-        protected virtual void OnMouseDown(object sender, EventArgs e)
-        {
-            MouseDown(sender, e);
-        }
-
-        protected virtual void OnMouseUp(object sender, EventArgs e)
-        {
-            MouseUp(sender, e);
-        }
-
-        protected virtual void OnMouseDoubleClick(object sender, EventArgs e)
-        {
-            MouseDoubleClick(sender, e);
-        }
-
-        protected virtual void OnImageChange(Image newImage)
-        {
-            ImageChanged(this, new EventArgs());
-        }
-
-        protected virtual void OnMouseEnter(object sender, EventArgs e)
-        {
-            MouseEnter(sender, e);
-        }
-
-        protected virtual void OnMouseLeave(object sender, EventArgs e)
-        {
-            MouseLeave(sender, e);
-        }
-
-        protected virtual void OnMouseMove(object sender, EventArgs e)
-        {
-            MouseMove(sender, e);
-        }
-
-        protected virtual void OnRequestPaint()
-        {
-            PaintRequested(this, new EventArgs());
-        }
-
-        protected virtual void OnNameChanged(object sender, EventArgs e)
-        {
-            NameChanged(sender, e);
+            
         }
         #endregion
 

@@ -51,7 +51,7 @@ namespace WinDock.Plugins.Applications
             }
         }
 
-        protected override void OnMouseClick(object sender, EventArgs e)
+        protected override void OnLeftClick(object sender, EventArgs e)
         {
             LaunchOrShow();
         }
@@ -74,7 +74,7 @@ namespace WinDock.Plugins.Applications
 
                 if (p != null)
                 {
-                    OnImageChange(Image);
+                    Active = true;
                 }
             }
             else
@@ -112,7 +112,8 @@ namespace WinDock.Plugins.Applications
             {
                 Process.GetProcessById((int)handle.Key).CloseMainWindow();
             }
-            OnImageChange(Image);
+
+            Active = false;
         }
 
         public override IEnumerable<DockItemAction> MenuItems

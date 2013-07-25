@@ -7,23 +7,32 @@ namespace WinDock.Business.Core
 {
     public static class Paths
     {
-        public static string AssemblyName { get; set; }
-        public static string ApplicationDataDirectory { get; set; }
-        public static string PluginDirectory { get; set; }
-        public static string ResourceDirectory { get; set; }
-        public static string SystemDirectory { get; set; }
+        public static string AppName { get; set; }
+        public static string ApplicationData { get; set; }
+        public static string Docks { get; set; }
+        public static string Plugins { get; set; }
+        public static string Resources { get; set; }
+        public static string System { get; set; }
         public static string SystemRoot { get; set; }
         public static string SystemIconFile { get; set; }
+        public static string Themes { get; set; }
 
         static Paths()
         {
-            AssemblyName = new AssemblyName(Assembly.GetExecutingAssembly().FullName).Name;
-            ApplicationDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AssemblyName);
-            SystemDirectory = Environment.SystemDirectory;
+            AppName = "WinDock";
+            ApplicationData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName);
+            System = Environment.SystemDirectory;
             SystemRoot = Path.GetPathRoot(Environment.SystemDirectory);
-            SystemIconFile = Path.Combine(SystemDirectory, "imageres.dll");
-            ResourceDirectory = @"C:\Users\William\Documents\Visual Studio 2010\Projects\WinDock\Resources";
-            PluginDirectory = Path.Combine(ResourceDirectory, "Plugins");
+            SystemIconFile = Path.Combine(System, "imageres.dll");
+            Resources = @"C:\Users\William\Documents\Visual Studio 2010\Projects\WinDock\Resources";
+            Docks = Path.Combine(ApplicationData, "Docks");
+            Plugins = Path.Combine(ApplicationData, "Plugins");
+            Themes = Path.Combine(ApplicationData, "Themes");
+
+            if(!Directory.Exists(ApplicationData))
+            {
+                Directory.CreateDirectory(ApplicationData);
+            }
         }
     }
 }

@@ -21,6 +21,81 @@
         SourceInitialized="Window_SourceInitialized">
 
     <Window.Resources>
+        <Style x:Key="TransparentContextMenu" TargetType="{x:Type ContextMenu}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />
+            <Setter Property="Grid.IsSharedSizeScope"
+                    Value="true" />
+            <Setter Property="HasDropShadow"
+                    Value="True" />
+            <Setter Property="Placement"
+                    Value="Top" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Border x:Name="Border"
+                                Background="#99000000"
+                                BorderThickness="2"
+                                BorderBrush="#99FFFFFF"
+                                CornerRadius="8"
+                                Padding="0,3,0,3"
+                                MinWidth="160"
+                                Margin="8">
+                            <StackPanel Margin="4" 
+                                        IsItemsHost="True" 
+                                        KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" />
+                            </Border.Effect>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TransparentMenuItem" TargetType="{x:Type MenuItem}">
+            <Setter Property="Header" Value="{Binding Label}" />
+            <Setter Property="ItemsSource" Value="{Binding Submenu}" />
+            <Setter Property="Command" Value="{Binding Action}" />
+            <Setter Property="Foreground" Value="#CCFFFFFF" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border Name="Border">
+                            <Grid>
+                                <ContentPresenter Margin="6,3,6,3"
+                                                  ContentSource="Header"
+                                                  RecognizesAccessKey="True" />
+                                <Popup Name="Popup"
+                                       Placement="Right"
+                                       VerticalOffset="-8"
+                                       IsOpen="{TemplateBinding IsSubmenuOpen}"
+                                       AllowsTransparency="True"
+                                       Focusable="False"
+                                       PopupAnimation="Fade">
+                                    <Border x:Name="SubmenuBorder"
+                                            Background="#99000000"
+                                            BorderThickness="2"
+                                            BorderBrush="#99FFFFFF"
+                                            CornerRadius="8"
+                                            MinWidth="160"
+                                            Padding="0,3,0,3"
+                                            Margin="8">
+                                        <StackPanel Margin="4" 
+                                                    IsItemsHost="True" 
+                                                    KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                        <Border.Effect>
+                                            <DropShadowEffect ShadowDepth="0" />
+                                        </Border.Effect>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <DataTemplate x:Key="DockItemTemplate">
             <wdv:DockItem VerticalAlignment="Top" />
         </DataTemplate>
@@ -61,4 +136,9 @@
             </ItemsControl>
         </StackPanel>
     </Viewbox>
+    <Window.ContextMenu>
+        <ContextMenu ItemsSource="{Binding ContextMenu}"
+                         Style="{StaticResource TransparentContextMenu}"
+                         ItemContainerStyle="{StaticResource TransparentMenuItem}" />
+    </Window.ContextMenu>
 </Window>

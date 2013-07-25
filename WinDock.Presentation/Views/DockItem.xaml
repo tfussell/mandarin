@@ -91,6 +91,9 @@
             Height="100"
             Margin="12">
         <Image Source="{Binding IconImage}" />
+        <Button.InputBindings>
+            <MouseBinding Gesture="LeftClick" Command="{Binding LeftClickCommand}" />
+        </Button.InputBindings>
         <Button.ContextMenu>
             <ContextMenu ItemsSource="{Binding ContextMenu}"
                          Style="{StaticResource TransparentContextMenu}"

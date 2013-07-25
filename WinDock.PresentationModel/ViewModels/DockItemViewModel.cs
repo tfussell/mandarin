@@ -8,6 +8,8 @@ using WinDock.Business.Core;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
+using System.Windows.Input;
+using GalaSoft.MvvmLight.Command;
 
 namespace WinDock.PresentationModel.ViewModels
 {
@@ -24,6 +26,8 @@ namespace WinDock.PresentationModel.ViewModels
         private int width;
         private int height;
         private IEnumerable<ContextMenuItemViewModel> contextMenu;
+
+        public ICommand LeftClickCommand { get; set; }
 
         public ImageSource IconImage
         {
@@ -90,7 +94,7 @@ namespace WinDock.PresentationModel.ViewModels
         {
             if (IsInDesignModeStatic)
             {
-                IconImage = new BitmapImage(new Uri(Path.Combine(Paths.ResourceDirectory, "IconImages", "Terminal.png")));
+                IconImage = new BitmapImage(new Uri(Path.Combine(Paths.Resources, "IconImages", "Terminal.png")));
                 Name = "Terminal";
                 Width = 60;
                 Height = 60;
@@ -106,7 +110,14 @@ namespace WinDock.PresentationModel.ViewModels
             if (model != null)
             {
                 Model = model;
-                model.ImageChanged += (s, e) => IconImage = ImageToBitmapSource(model.Image);
+
+                model.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == "Image")
+                    {
+                        IconImage = ImageToBitmapSource(model.Image);
+                    }
+                };
 
                 Model = model;
                 IconImage = ImageToBitmapSource(model.Image);
@@ -114,6 +125,8 @@ namespace WinDock.PresentationModel.ViewModels
                 Width = 60;
                 Height = 60;
                 ContextMenu = model.MenuItems.Select(m => new ContextMenuItemViewModel(m)).ToList();
+
+                LeftClickCommand = new RelayCommand(() => Model.OnLeftClick());
             }
         }
 

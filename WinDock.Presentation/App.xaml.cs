@@ -29,6 +29,11 @@ namespace WinDock.Presentation
             var service = new DockService();
             service.GetDocks((docks, error) =>
             {
+                if (error != null)
+                {
+                    throw new Exception("Problem loading docks.", error);
+                }
+
                 foreach (var dock in docks)
                 {
                     var window = new DockWindow();

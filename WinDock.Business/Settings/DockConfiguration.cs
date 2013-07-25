@@ -7,13 +7,31 @@ namespace WinDock.Business.Settings
 {
     public class DockConfiguration : INotifyPropertyChanged
     {
+        public static DockConfiguration Default
+        {
+            get
+            {
+                return new DockConfiguration
+                {
+                    Name = "Dock",
+                    Edge = ScreenEdge.Bottom,
+                    ScreenIndex = 0,
+                    ItemGroups = new List<string> { "Applications", null, "RecycleBin" },
+                    Autohide = false,
+                    Reserve = false,
+                    ThemeName = "MountainLion",
+                    Size = 80
+                };
+            }
+        }
+
         private string name;
         private ScreenEdge edge;
         private int screenIndex;
         private List<string> itemGroups;
         private bool autohide;
         private bool reserve;
-        private Theme theme;
+        private string themeName;
         private int size;
 
         public string Name
@@ -51,7 +69,7 @@ namespace WinDock.Business.Settings
 
         public List<string> ItemGroups
         {
-            get { return new List<string> {"Applications", null, "RecycleBin"}; }
+            get { return itemGroups; }
             set
             {
                 if (Equals(itemGroups, value)) return;
@@ -82,17 +100,6 @@ namespace WinDock.Business.Settings
             }
         }
 
-        public Theme Theme
-        {
-            get { return theme; }
-            set
-            {
-                if (Equals(theme, value)) return;
-                theme = value;
-                OnPropertyChanged("Theme");
-            }
-        }
-
         public string ThemeName
         {
             get { return themeName; }
@@ -100,11 +107,9 @@ namespace WinDock.Business.Settings
             {
                 if (Equals(themeName, value)) return;
                 themeName = value;
-                theme = Theme.FromFile(value);
+                OnPropertyChanged("ThemeName");
             }
         }
-
-        private string themeName;
 
         public int Size
         {

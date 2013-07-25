@@ -13,28 +13,24 @@ namespace WinDock.Services
     {
         public void GetDocks(Action<IEnumerable<Dock>, Exception> callback)
         {
-            var dockDirectories = Directory.EnumerateDirectories(Path.Combine(Paths.ResourceDirectory, "Docks"));
-            var dockConfigurations = dockDirectories.Where(DockDirectoryIsValid).Select(d => new DockConfiguration()).ToList();
+            if (!Directory.Exists(Paths.Docks))
+            {
+                Directory.CreateDirectory(Paths.Docks);
+            }
 
-            if (dockConfigurations.Any())
-            {
-                var docks = dockConfigurations.Select(config => new Dock(config));
-                callback(docks, null);
-            }
-            else
-            {
-                callback(null, new Exception("No valid dock configurations found in directory: " + Paths.ResourceDirectory));
-            }
+            var dockConfigurations = Directory.EnumerateDirectories(Paths.Docks)
+                .Where(d => File.Exists(Path.Combine(d, "dock.json")))
+                .Select(d => new DockConfiguration())
+                .DefaultIfEmpty(DockConfiguration.Default);
+
+            var docks = dockConfigurations.Select(config => new Dock(config));
+
+            callback(docks, null);
         }
 
         public void SaveDock(Dock dock, Action<bool> callback)
         {
             throw new NotImplementedException();
-        }
-
-        private bool DockDirectoryIsValid(string directory)
-        {
-            return File.Exists(Path.Combine(directory, "dock.json"));
         }
     }
 }

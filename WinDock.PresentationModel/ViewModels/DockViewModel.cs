@@ -8,6 +8,10 @@ using System.Linq;
 using WinDock.Plugins.Applications;
 using System.Drawing;
 using WinDock.Plugins.RecycleBin;
+using System.Collections.Generic;
+using System.Windows.Input;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace WinDock.PresentationModel.ViewModels
 {
@@ -15,7 +19,9 @@ namespace WinDock.PresentationModel.ViewModels
     {
         public const string ItemsPropertyName = "Items";
         public const string IsDirtyPropertyName = "IsDirty";
+        public const string ContextMenuPropertyName = "ContextMenu";
 
+        private IEnumerable<ContextMenuItemViewModel> contextMenu;
         private ObservableCollection<DockItemViewModel> items;
         private bool isDirty;
 
@@ -41,6 +47,17 @@ namespace WinDock.PresentationModel.ViewModels
             }
         }
 
+        public IEnumerable<ContextMenuItemViewModel> ContextMenu
+        {
+            get { return contextMenu; }
+            set
+            {
+                if (Equals(contextMenu, value)) return;
+                contextMenu = value;
+                RaisePropertyChanged(ContextMenuPropertyName);
+            }
+        }
+
         public Dock Model
         {
             get;
@@ -56,17 +73,15 @@ namespace WinDock.PresentationModel.ViewModels
 
             items = new ObservableCollection<DockItemViewModel>
             {
-                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.ResourceDirectory, "IconImages", "Microsoft Office - OneNote.png")) })),
-                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.ResourceDirectory, "IconImages", "Microsoft Office - Excel.png")) })),
-                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.ResourceDirectory, "IconImages", "Microsoft Office - Word.png")) })),
-                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.ResourceDirectory, "IconImages", "Microsoft Office - Outlook.png")) })),
+                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.Resources, "IconImages", "Microsoft Office - OneNote.png")) })),
+                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.Resources, "IconImages", "Microsoft Office - Excel.png")) })),
+                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.Resources, "IconImages", "Microsoft Office - Word.png")) })),
+                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.Resources, "IconImages", "Microsoft Office - Outlook.png")) })),
                 new DockItemViewModel(null),
-                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.ResourceDirectory, "IconImages", "Microsoft Office - PowerPoint.png")) })),
-                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.ResourceDirectory, "IconImages", "Microsoft Office - Publisher.png")) })),
-                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.ResourceDirectory, "IconImages", "Microsoft Office - Visio.png")) }))
+                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.Resources, "IconImages", "Microsoft Office - PowerPoint.png")) })),
+                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.Resources, "IconImages", "Microsoft Office - Publisher.png")) })),
+                new DockItemViewModel(new ApplicationDockItem(new DesktopEntry { Icon = Bitmap.FromFile(Path.Combine(Paths.Resources, "IconImages", "Microsoft Office - Visio.png")) }))
             };
-
-            
         }
 
         public DockViewModel(Dock model)
@@ -84,6 +99,17 @@ namespace WinDock.PresentationModel.ViewModels
 
             var viewModels = model.AllItems.Select(i => new DockItemViewModel(i));
             Items = new ObservableCollection<DockItemViewModel>(viewModels);
+
+            ContextMenu = new List<ContextMenuItemViewModel>
+            {
+                new ContextMenuItemViewModel(DockItemAction.CreateToggle("Autohide Dock", () => Model.Configuration.Autohide = true, () => Model.Configuration.Autohide = false, Model.Configuration.Autohide)),
+                new ContextMenuItemViewModel(DockItemAction.CreateNormal("Close", CloseDockWindow))
+            };
+        }
+
+        private void CloseDockWindow()
+        {
+            Messenger.Default.Send<NotificationMessage>(new NotificationMessage(this, "CloseDockWindow"));
         }
     }
 }

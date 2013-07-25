@@ -14,6 +14,7 @@ using WinDock.Business.Core;
 using WinDock.PresentationModel.Locators;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace WinDock.Presentation.Views
 {
@@ -167,6 +168,17 @@ namespace WinDock.Presentation.Views
             Left = screen.WorkingArea.Left;
             Top = screen.WorkingArea.Bottom - 300;
             SourceImage = new BitmapImage(new Uri(@"C:\Users\William\Desktop\background2.png"));
+
+            Messenger.Default.Register<NotificationMessage>(this, (m) =>
+            {
+                if (m.Notification == "CloseDockWindow")
+                {
+                    if (m.Sender == DataContext)
+                    {
+                        Close();
+                    }
+                }
+            });
         }
 
         private void OnPositionChanged()
