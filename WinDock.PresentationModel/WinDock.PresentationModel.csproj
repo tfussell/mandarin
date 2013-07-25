@@ -53,7 +53,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="ViewModels\ContextMenuItemViewModel.cs" />
-    <Compile Include="ViewModels\DockContextMenuViewModel.cs" />
     <Compile Include="ViewModels\DockItemViewModel.cs" />
     <Compile Include="ViewModels\DockViewModel.cs" />
   </ItemGroup>

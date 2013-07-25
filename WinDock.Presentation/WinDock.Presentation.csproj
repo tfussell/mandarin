@@ -78,32 +78,30 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DockItemTemplateSelector.cs" />
-    <Compile Include="Views\DockContextMenu.xaml.cs">
-      <DependentUpon>DockContextMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\DockItem.xaml.cs">
       <DependentUpon>DockItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DockItemToolTip.xaml.cs">
-      <DependentUpon>DockItemToolTip.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DockWindow.xaml.cs">
       <DependentUpon>DockWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfScreen.cs" />
+    <Page Include="Assets\ConfigurationWindowSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\DockItemSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\DockWindowSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Assets\MainSkin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DockContextMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\DockItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\DockItemToolTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

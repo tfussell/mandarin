@@ -46,15 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="ContextMenu\ContextMenu.cs" />
-    <Compile Include="ContextMenu\ContextMenuItem.cs" />
-    <Compile Include="ContextMenu\IconContextMenuItem.cs" />
-    <Compile Include="ContextMenu\IContextMenuProvider.cs" />
-    <Compile Include="ContextMenu\SeparatorContextMenuItem.cs" />
-    <Compile Include="ContextMenu\SubMenuContextMenuItem.cs" />
-    <Compile Include="ContextMenu\TextContextMenuItem.cs" />
-    <Compile Include="ContextMenu\ToggleContextMenuItem.cs" />
     <Compile Include="Core\Dock.cs" />
+    <Compile Include="Core\DockItemAction.cs" />
     <Compile Include="Core\ItemGroupList.cs" />
     <Compile Include="Events\FileDropEventArgs.cs" />
     <Compile Include="Events\ItemsChangedEventArgs.cs" />

@@ -361,5 +361,40 @@ namespace WinDock.Presentation.Views
             [DllImport("dwmapi.dll")]
             public static extern void DwmEnableBlurBehindWindow(IntPtr hWnd, ref DWM_BLURBEHIND blurBehind);
         }
+
+        private bool dragging = false;
+        private int offset = 0;
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            dragging = true;
+            offset = (int)(e.GetPosition((IInputElement)sender).Y);
+            ((Image)sender).CaptureMouse();
+        }
+
+        private void Image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            dragging = false;
+            ((Image)sender).ReleaseMouseCapture();
+        }
+
+        private void Image_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragging)
+            {
+                var delta = (int)(e.GetPosition((IInputElement)sender).Y) - offset;
+                if (delta > 1)
+                {
+                    LayoutRoot.Height = Math.Max(LayoutRoot.MinHeight, LayoutRoot.Height - delta);
+                }
+                else
+                {
+                    if (LayoutRoot.RenderSize.Width < screen.WorkingArea.Width)
+                    {
+                        LayoutRoot.Height -= delta;
+                    }
+                }
+            }
+        }
     }
 }

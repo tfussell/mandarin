@@ -1,6 +1,7 @@
 *.sdf
 *.suo
 *~
+*.opensdf
 bin/
 obj/
 x64/

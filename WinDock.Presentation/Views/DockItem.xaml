@@ -10,23 +10,96 @@
              mc:Ignorable="d"
              AllowDrop="False">
     <UserControl.Resources>
-
+        <Style x:Key="TransparentContextMenu" TargetType="{x:Type ContextMenu}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />
+            <Setter Property="Grid.IsSharedSizeScope"
+                    Value="true" />
+            <Setter Property="HasDropShadow"
+                    Value="True" />
+            <Setter Property="Placement"
+                    Value="Top" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Border x:Name="Border"
+                                Background="#99000000"
+                                BorderThickness="2"
+                                BorderBrush="#99FFFFFF"
+                                CornerRadius="8"
+                                Padding="0,3,0,3"
+                                MinWidth="160"
+                                Margin="8">
+                            <StackPanel Margin="4" 
+                                        IsItemsHost="True" 
+                                        KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" />
+                            </Border.Effect>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TransparentMenuItem" TargetType="{x:Type MenuItem}">
+            <Setter Property="Header" Value="{Binding Label}" />
+            <Setter Property="ItemsSource" Value="{Binding Submenu}" />
+            <Setter Property="Foreground" Value="#CCFFFFFF" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border Name="Border">
+                            <Grid>
+                                <ContentPresenter Margin="6,3,6,3"
+                                                  ContentSource="Header"
+                                                  RecognizesAccessKey="True" />
+                                <Popup Name="Popup"
+                                       Placement="Right"
+                                       VerticalOffset="-8"
+                                       IsOpen="{TemplateBinding IsSubmenuOpen}"
+                                       AllowsTransparency="True"
+                                       Focusable="False"
+                                       PopupAnimation="Fade">
+                                    <Border x:Name="SubmenuBorder"
+                                            Background="#99000000"
+                                            BorderThickness="2"
+                                            BorderBrush="#99FFFFFF"
+                                            CornerRadius="8"
+                                            MinWidth="160"
+                                            Padding="0,3,0,3"
+                                            Margin="8">
+                                        <StackPanel Margin="4" 
+                                                    IsItemsHost="True" 
+                                                    KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                        <Border.Effect>
+                                            <DropShadowEffect ShadowDepth="0" />
+                                        </Border.Effect>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    <Button Focusable="False"
-            Width="{Binding Width}"
-            Height="{Binding Height}"
-            MouseEnter="Button_MouseEnter"
-            MouseLeave="Button_MouseLeave"
-            Background="Transparent"
-            BorderThickness="0"
-            Margin="5"
-            MouseUp="Button_MouseUp">
+    <Button Focusable="True"
+            Width="100"
+            Height="100"
+            Margin="12">
         <Image Source="{Binding IconImage}" />
+        <Button.ContextMenu>
+            <ContextMenu ItemsSource="{Binding ContextMenu}"
+                         Style="{StaticResource TransparentContextMenu}"
+                         ItemContainerStyle="{StaticResource TransparentMenuItem}" />
+        </Button.ContextMenu>
         <Button.Style>
             <Style>
                 <Setter Property="ToolTipService.IsEnabled" Value="True" />
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Name}"
+                    <DataTrigger Binding="{Binding Label}"
                                  Value="{x:Null}">
                         <Setter Property="ToolTipService.IsEnabled"
                                 Value="False" />

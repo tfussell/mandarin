@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight;
-using WinDock.Business.ContextMenu;
 using WinDock.Business.Core;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Collections.Generic;
 
 namespace WinDock.PresentationModel.ViewModels
 {
@@ -22,7 +23,7 @@ namespace WinDock.PresentationModel.ViewModels
         private string name;
         private int width;
         private int height;
-        private DockContextMenuViewModel contextMenu;
+        private IEnumerable<ContextMenuItemViewModel> contextMenu;
 
         public ImageSource IconImage
         {
@@ -68,7 +69,7 @@ namespace WinDock.PresentationModel.ViewModels
             }
         }
 
-        public DockContextMenuViewModel ContextMenu
+        public IEnumerable<ContextMenuItemViewModel> ContextMenu
         {
             get { return contextMenu; }
             set
@@ -115,7 +116,7 @@ namespace WinDock.PresentationModel.ViewModels
                 Name = model.Name;
                 Width = 60;
                 Height = 60;
-                ContextMenu = new DockContextMenuViewModel(new ContextMenu(model));
+                ContextMenu = model.MenuItems.Select(m => new ContextMenuItemViewModel(m)).ToList();
             }
         }
 

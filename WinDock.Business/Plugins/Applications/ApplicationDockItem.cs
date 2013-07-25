@@ -5,15 +5,12 @@ using System.IO;
 using System.Linq;
 using WinDock.Business;
 using WinDock.Business.Core;
-using WinDock.Business.ContextMenu;
 using WindowsManagedApi.User32;
 
 namespace WinDock.Plugins.Applications
 {
     public class ApplicationDockItem : IconDockItem
     {
-        public event EventHandler ContextMenuRequested = delegate { };
-
         public DesktopEntry DesktopEntry { get; set; }
 
         public bool Running
@@ -118,45 +115,37 @@ namespace WinDock.Plugins.Applications
             OnImageChange(Image);
         }
 
-        public override IEnumerable<ContextMenuItem> MenuItems
+        public override IEnumerable<DockItemAction> MenuItems
         {
             get
             {
                 if (Running)
                 {
-                    return new List<ContextMenuItem>
-                        {
-                            new SubMenuContextMenuItem()
+                    return new List<DockItemAction>
+                    {
+                        DockItemAction.CreateSubMenu("Options", new List<DockItemAction>
                             {
-                                Text = "Options",
-                                SubMenu = new List<ContextMenuItem>
-                                {
-                                    new ToggleContextMenuItem("Keep in Dock", () => Pinned = true, () => Pinned = false, Pinned),
-                                    new ToggleContextMenuItem("Open at Login", () => Autorun = true, () => Autorun = false, Autorun)
-                                }
-                            },
-                            new TextContextMenuItem("Show in Explorer", ShowInExplorer),
-                            new SeparatorContextMenuItem(),
-                            new TextContextMenuItem("Show", MoveToFront),
-                            new TextContextMenuItem("Quit", Quit)
-                        };
+                                DockItemAction.CreateToggle("Keep in Dock", () => Pinned = true, () => Pinned = false, Pinned),
+                                DockItemAction.CreateToggle("Open at Login", () => Autorun = true, () => Autorun = false, Autorun)
+                            }),
+                        DockItemAction.CreateNormal("Show in Explorer", ShowInExplorer),
+                        null,
+                        DockItemAction.CreateNormal("Show", MoveToFront),
+                        DockItemAction.CreateNormal("Quit", Quit)
+                    };
                 }
 
-                return new List<ContextMenuItem>
-                    {
-                        new SubMenuContextMenuItem()
+                return new List<DockItemAction>
+                {
+                    DockItemAction.CreateSubMenu("Options", new List<DockItemAction>
                         {
-                            Text = "Options",
-                            SubMenu = new List<ContextMenuItem>
-                            {
-                                new ToggleContextMenuItem("Keep in Dock", () => Pinned = true, () => Pinned = false, Pinned),
-                                new ToggleContextMenuItem("Open at Login", () => Autorun = true, () => Autorun = false, Autorun)
-                            }
-                        },
-                        new TextContextMenuItem("Show in Explorer", ShowInExplorer),
-                        new SeparatorContextMenuItem(),
-                        new TextContextMenuItem("Open", LaunchOrShow)
-                    };
+                            DockItemAction.CreateToggle("Keep in Dock", () => Pinned = true, () => Pinned = false, Pinned),
+                            DockItemAction.CreateToggle("Open at Login", () => Autorun = true, () => Autorun = false, Autorun)
+                        }),
+                    DockItemAction.CreateNormal("Show in Explorer", ShowInExplorer),
+                    null,
+                    DockItemAction.CreateNormal("Open", LaunchOrShow)
+                };
             }
         }
     }

@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using WinDock.Business.Core;
-using WinDock.Business.ContextMenu;
 
 namespace WinDock.Plugins.RecycleBin
 {
@@ -17,16 +16,16 @@ namespace WinDock.Plugins.RecycleBin
             get { return WindowsManagedApi.Shell32.Helpers.QueryRecycleBinNumItems() == 0; }
         }
 
-        public override IEnumerable<ContextMenuItem> MenuItems
+        public override IEnumerable<DockItemAction> MenuItems
         {
             get
             {
-                return new List<ContextMenuItem>
-                    {
-                        new TextContextMenuItem("Open", OpenInExplorer),
-                        new SeparatorContextMenuItem(),
-                        new TextContextMenuItem("Empty Trash", Empty)
-                    };
+                return new List<DockItemAction>
+                {
+                    DockItemAction.CreateNormal("Open", OpenInExplorer),
+                    null,
+                    DockItemAction.CreateNormal("Empty Trash", Empty)
+                };
             }
         }
 

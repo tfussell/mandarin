@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
-using WinDock.Business.ContextMenu;
 using WinDock.Business.Themes;
 
 namespace WinDock.Business.Core
@@ -11,7 +10,7 @@ namespace WinDock.Business.Core
     /// <summary>
     /// An abstract class representing any bounded displayable item on a dock.
     /// </summary>
-    public abstract class DockItem : INotifyPropertyChanged, IDisposable, IContextMenuProvider
+    public abstract class DockItem : INotifyPropertyChanged, IDisposable
     {
         #region Events
         public event EventHandler PaintRequested = delegate {  };
@@ -29,7 +28,7 @@ namespace WinDock.Business.Core
         #endregion
 
         #region Properties
-        public abstract IEnumerable<ContextMenuItem> MenuItems { get; }
+        public abstract IEnumerable<DockItemAction> MenuItems { get; }
 
         private bool Active
         {
