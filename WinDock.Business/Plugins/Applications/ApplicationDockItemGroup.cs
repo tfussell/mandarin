@@ -56,7 +56,7 @@ namespace WinDock.Plugins.Applications
                 using (var taskbar = new Taskbar())
                 {
                     var referents = taskbar.GetAll().Select(DesktopEntryManager.FromShellLinkFile);
-                    foreach (var item in referents)
+                    foreach (var item in referents.Where(i => i.Type != DesktopEntryType.Invalid))
                     {
                         var appId = AppUserModelId.Find(item.TryExec).SingleOrDefault(a => File.Exists(a.DestinationList));
 

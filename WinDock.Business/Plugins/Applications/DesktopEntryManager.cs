@@ -12,7 +12,7 @@ namespace WinDock.Plugins.Applications
 {
     public class DesktopEntryManager
     {
-        public event EventHandler<NotifyCollectionChangedEventArgs> DesktopEntriesChanged;
+        //public event EventHandler<NotifyCollectionChangedEventArgs> DesktopEntriesChanged;
 
         // shorthand for all registered AND unregistered desktop items
         public IEnumerable<DesktopEntry> AllEntries

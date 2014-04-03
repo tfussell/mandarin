@@ -38,7 +38,7 @@ public value struct BLENDFUNCTION
 namespace Enumerations {
 
 [Flags]
-public enum class WindowStyle
+public enum class WindowStyle : unsigned int
 {
 	Border = WS_BORDER,
 	Caption = WS_CAPTION,
