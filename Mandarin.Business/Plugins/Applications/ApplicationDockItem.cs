@@ -29,6 +29,8 @@ namespace WinDock.Plugins.Applications
             Autorun = false;
             Pinned = false;
 
+            WindowHandles = new Dictionary<IntPtr, IntPtr>();
+
             var v = AppUserModelId.Find(windowHandle).Where(a => File.Exists(a.DestinationList));
             ApplicationId = v.Single().Id;
         }
@@ -38,6 +40,7 @@ namespace WinDock.Plugins.Applications
             DesktopEntry = entry;
 
             WindowHandles = new Dictionary<IntPtr, IntPtr>();
+
             Autorun = false;
             Pinned = true;
 
@@ -58,7 +61,7 @@ namespace WinDock.Plugins.Applications
 
         public void RegisterWindowHandle(IntPtr processId, IntPtr windowHandle)
         {
-            WindowHandles[processId] = windowHandle;
+            WindowHandles.Add(processId, windowHandle);
         }
 
         public void UnregisterWindowHandle(IntPtr processId)
@@ -70,12 +73,27 @@ namespace WinDock.Plugins.Applications
         {
             if (WindowHandles.Count == 0)
             {
-                var p = Process.Start(DesktopEntry.Exec);
+                Process p = null;
+
+                if (DesktopEntry.Type == DesktopEntryType.Application)
+                {
+                    var extensionIndex = DesktopEntry.Exec.IndexOf(".exe");
+                    var exe = DesktopEntry.Exec.Substring(0, extensionIndex + 4);
+                    var args = DesktopEntry.Exec.Substring(extensionIndex + 5);
+                    p = Process.Start(exe, args);
+                }
+                else if (DesktopEntry.Type == DesktopEntryType.Directory)
+                {
+                    p = Process.Start("explorer.exe", "/e,shell:" + DesktopEntry.Path);
+                }
 
                 if (p != null)
                 {
                     Active = true;
                 }
+
+                //var handle = WindowsManagedApi.User32.Functions.
+                //RegisterWindowHandle(new IntPtr(p.Id), p.MainWindowHandle);
             }
             else
             {
@@ -87,7 +105,10 @@ namespace WinDock.Plugins.Applications
         {
             foreach (var p in WindowHandles)
             {
-                MoveToFront(p.Value);
+                if (p.Value != IntPtr.Zero)
+                {
+                    MoveToFront(p.Value);
+                }
             }
         }
 

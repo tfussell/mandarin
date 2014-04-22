@@ -90,16 +90,6 @@
     <Compile Include="ViewModels\DockViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WinDock.Business\WinDock.Business.csproj">
-      <Project>{A3B29604-31C2-405A-BFE6-7DF65014424F}</Project>
-      <Name>WinDock.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WinDock.Services\WinDock.Services.csproj">
-      <Project>{F312A499-EA6F-4245-B889-1D0899689C1B}</Project>
-      <Name>WinDock.Services</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Converters\" />
     <Folder Include="Resources\" />
     <Folder Include="TemplateSelectors\" />
@@ -108,6 +98,16 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mandarin.Business\Mandarin.Business.csproj">
+      <Project>{a3b29604-31c2-405a-bfe6-7df65014424f}</Project>
+      <Name>Mandarin.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mandarin.Services\Mandarin.Services.csproj">
+      <Project>{f312a499-ea6f-4245-b889-1d0899689c1b}</Project>
+      <Name>Mandarin.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

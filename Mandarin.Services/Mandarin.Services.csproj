@@ -67,9 +67,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WinDock.Business\WinDock.Business.csproj">
+    <ProjectReference Include="..\Mandarin.Business\Mandarin.Business.csproj">
       <Project>{A3B29604-31C2-405A-BFE6-7DF65014424F}</Project>
-      <Name>WinDock.Business</Name>
+      <Name>Mandarin.Business</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -91,6 +91,7 @@
     <Compile Include="Plugins\Plugin.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Plugins\RecycleBin\RecycleBinIcon.cs" />
+    <Compile Include="Plugins\StartMenu\StartMenuIcon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\ConfigurationController.cs" />
@@ -116,11 +117,19 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\Clock\" />
     <Folder Include="Plugins\NotificationArea\" />
-    <Folder Include="Plugins\StartMenu\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WindowsManagedApi\WindowsManagedApi.vcxproj">

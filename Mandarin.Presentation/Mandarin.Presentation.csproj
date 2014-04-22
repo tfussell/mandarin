@@ -16,6 +16,21 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,7 +58,7 @@
     <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -154,18 +169,35 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WinDock.Business\WinDock.Business.csproj">
-      <Project>{A3B29604-31C2-405A-BFE6-7DF65014424F}</Project>
-      <Name>WinDock.Business</Name>
+    <ProjectReference Include="..\Mandarin.Business\Mandarin.Business.csproj">
+      <Project>{a3b29604-31c2-405a-bfe6-7df65014424f}</Project>
+      <Name>Mandarin.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WinDock.PresentationModel\WinDock.PresentationModel.csproj">
-      <Project>{DC04DE60-F932-4B1E-BE56-C96F5369F67D}</Project>
-      <Name>WinDock.PresentationModel</Name>
+    <ProjectReference Include="..\Mandarin.PresentationModel\Mandarin.PresentationModel.csproj">
+      <Project>{dc04de60-f932-4b1e-be56-c96f5369f67d}</Project>
+      <Name>Mandarin.PresentationModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WinDock.Services\WinDock.Services.csproj">
-      <Project>{F312A499-EA6F-4245-B889-1D0899689C1B}</Project>
-      <Name>WinDock.Services</Name>
+    <ProjectReference Include="..\Mandarin.Services\Mandarin.Services.csproj">
+      <Project>{f312a499-ea6f-4245-b889-1d0899689c1b}</Project>
+      <Name>Mandarin.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -242,11 +242,18 @@ namespace WinDock.Plugins.Applications
             return appIds.Select(a => new AppUserModelId(process.MainModule.FileName, a, false)).ToList();
         }
 
+        public static IEnumerable<AppUserModelId> FromExplicitAppId(string executable, string explicitId)
+        {
+            var data = CreateFormattedName(explicitId);
+            var appId = CalculateCrc64(data);
+            return new List<AppUserModelId> { new AppUserModelId(executable, appId, true) };
+        }
+
         public static IEnumerable<AppUserModelId> Find(string executable)
         {
             // First, check if there are any open windows matching this executable
             var friendlyName = Path.GetFileNameWithoutExtension(executable);
-            var process = Process.GetProcessesByName(friendlyName).SingleOrDefault(p => p.MainWindowHandle != IntPtr.Zero);
+            var process = Process.GetProcessesByName(friendlyName).FirstOrDefault(p => p.MainWindowHandle != IntPtr.Zero);
 
             if (process != null)
             {

@@ -16,7 +16,7 @@ namespace WinDock.Business.Settings
                     Name = "Dock",
                     Edge = ScreenEdge.Bottom,
                     ScreenIndex = 0,
-                    ItemGroups = new List<string> { "Applications", null, "RecycleBin" },
+                    ItemGroups = new List<string> { "StartMenu", null, "Applications", null, "RecycleBin" },
                     Autohide = false,
                     Reserve = false,
                     ThemeName = "MountainLion",

@@ -39,7 +39,7 @@ namespace WinDock.Plugins.Applications
                     try
                     {
                         var possibleAppIds = AppUserModelId.Find(entry.TryExec);
-                        var appId = possibleAppIds.SingleOrDefault(a => File.Exists(a.DestinationList)) ?? possibleAppIds.First();
+                        var appId = possibleAppIds.FirstOrDefault(a => File.Exists(a.DestinationList)) ?? possibleAppIds.First();
 
                         if (appId != null)
                         {
@@ -56,13 +56,25 @@ namespace WinDock.Plugins.Applications
                 using (var taskbar = new Taskbar())
                 {
                     var referents = taskbar.GetAll().Select(DesktopEntryManager.FromShellLinkFile);
-                    foreach (var item in referents.Where(i => i.Type != DesktopEntryType.Invalid))
+                    var valid = referents.Where(i => i.Type != DesktopEntryType.Invalid).ToList();
+                    foreach (var item in valid)
                     {
-                        var appId = AppUserModelId.Find(item.TryExec).SingleOrDefault(a => File.Exists(a.DestinationList));
-
-                        if (appId != null)
+                        if (item.Type == DesktopEntryType.Application)
                         {
-                            items.Add("1", new ApplicationDockItem(item));
+                            var appId = AppUserModelId.Find(item.TryExec).FirstOrDefault();//a => File.Exists(a.DestinationList));
+                            if (appId != null)
+                            {
+                                items.Add(appId.Id, new ApplicationDockItem(item));
+                            }
+                        }
+                        else if (item.Type == DesktopEntryType.Directory)
+                        {
+                            var appIds = AppUserModelId.FromExplicitAppId("C:\\Windows\\explorer.exe", "Microsoft.Windows.Explorer");
+                            var appId = appIds.FirstOrDefault();
+                            if (appId != null)
+                            {
+                                items.Add(appId.Id, new ApplicationDockItem(item));
+                            }
                         }
                     }
                 }

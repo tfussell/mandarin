@@ -7,6 +7,7 @@ using System.Reflection;
 using WinDock.Business.Core;
 using WinDock.Plugins.Applications;
 using WinDock.Plugins.RecycleBin;
+using WinDock.Plugins.StartMenu;
 
 namespace WinDock.Business.Plugins
 {
@@ -23,6 +24,7 @@ namespace WinDock.Business.Plugins
         {
             knownPlugins = new Dictionary<string, Plugin>
             {
+                { "StartMenu", new Plugin(typeof(SingleDockItemGroup<StartMenuIcon>)) },
                 { "Applications", new Plugin(typeof(ApplicationIconGroup)) },
                 { "RecycleBin", new Plugin(typeof(SingleDockItemGroup<RecycleBinIcon>)) }
             };

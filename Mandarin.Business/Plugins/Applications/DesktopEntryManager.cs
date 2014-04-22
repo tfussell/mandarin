@@ -7,6 +7,7 @@ using System.IO;
 using System.Drawing;
 using IWshRuntimeLibrary;
 using WinDock.Business.Core;
+using System.Runtime.InteropServices;
 
 namespace WinDock.Plugins.Applications
 {
@@ -85,17 +86,90 @@ namespace WinDock.Plugins.Applications
             return DesktopEntry.Invalid;
         }
 
+        private static DesktopEntry FromShellLinkFileAlt(string linkFilePath)
+        {
+            var shl = new Shell32.Shell();
+            var dir = shl.NameSpace(System.IO.Path.GetDirectoryName(linkFilePath));
+            var itm = dir.Items().Item(System.IO.Path.GetFileName(linkFilePath));
+            var lnk = (Shell32.ShellLinkObject)itm.GetLink;
+
+            if (lnk != null)
+            {
+                lnk.Resolve(0);
+                var entryType = GetLinkTypeAlt(lnk);
+
+                if (entryType == DesktopEntryType.Application)
+                {
+                    AppUserModelId appId = null;
+                    try
+                    {
+                        appId = AppUserModelId.Find(lnk.Target.Path).FirstOrDefault();
+                    }
+                    catch { }
+                    Dictionary<string, DesktopAction> actions = null;
+                    if (appId != null && appId.DestinationList != null)
+                    {
+                        actions = ExtractJumpListActions(appId.DestinationList);
+                    }
+
+                    Image icon = null;
+
+                    try
+                    {
+                        icon = WindowsManagedApi.User32.Helpers.ExtractIcon(lnk.Target.Path) ?? WindowsManagedApi.User32.Helpers.ExtractIcon(linkFilePath);
+                    }
+                    catch { }
+
+                    if (icon == null)
+                    {
+                        icon = OldResolve(linkFilePath).ToBitmap();
+                    }
+
+                    return new DesktopEntry
+                    {
+                        Icon = icon,
+                        TryExec = lnk.Target.Path,
+                        Exec = lnk.Target.Path + " " + lnk.Arguments,
+                        Comment = lnk.Description,
+                        Name = global::System.IO.Path.GetFileNameWithoutExtension(linkFilePath),
+                        Actions = actions,
+                        Version = new Version(1, 0),
+                        Path = Environment.ExpandEnvironmentVariables(lnk.WorkingDirectory),
+                        Type = DesktopEntryType.Application
+                    };
+                }
+                if (entryType == DesktopEntryType.Directory)
+                {
+                    return new DesktopEntry
+                    {
+                        Icon = WindowsManagedApi.User32.Helpers.ExtractIcon(Path.Combine(Environment.SystemDirectory, "..", "explorer.exe"), 0),
+                        Name = global::System.IO.Path.GetFileNameWithoutExtension(linkFilePath),
+                        Version = new Version(1, 0),
+                        Path = lnk.Target.Path,
+                        Type = DesktopEntryType.Directory
+                    };
+                }
+            }
+
+            return DesktopEntry.Invalid;
+        }
+
         public static DesktopEntry FromShellLinkFile(string linkFilePath)
         {
             var shellLink = GetShellLink(linkFilePath);
             var entryType = GetLinkType(shellLink);
+
+            if (entryType == DesktopEntryType.Invalid)
+            {
+                return FromShellLinkFileAlt(linkFilePath);
+            }
 
             if (entryType == DesktopEntryType.Application)
             {
                 AppUserModelId appId = null;
                 try
                 {
-                    AppUserModelId.Find(shellLink.TargetPath).FirstOrDefault();
+                   appId = AppUserModelId.Find(shellLink.TargetPath).FirstOrDefault();
                 }
                 catch { }
                 Dictionary<string, DesktopAction> actions = null;
@@ -112,6 +186,11 @@ namespace WinDock.Plugins.Applications
                 }
                 catch { }
 
+                if (icon == null)
+                {
+                    icon = OldResolve(linkFilePath).ToBitmap();   
+                }
+
                 return new DesktopEntry
                 {
                     Icon = icon,
@@ -121,7 +200,7 @@ namespace WinDock.Plugins.Applications
                     Name = global::System.IO.Path.GetFileNameWithoutExtension(shellLink.FullName),
                     Actions = actions,
                     Version = new Version(1, 0),
-                    Path = shellLink.WorkingDirectory,
+                    Path = Environment.ExpandEnvironmentVariables(shellLink.WorkingDirectory),
                     Type = DesktopEntryType.Application
                 };
             }
@@ -278,6 +357,33 @@ namespace WinDock.Plugins.Applications
             return shellLink;
         }
 
+        private static DesktopEntryType GetLinkTypeAlt(Shell32.ShellLinkObject shellLink)
+        {
+            var name = shellLink.Target.Name;
+            var type = shellLink.Target.Type;
+
+            if (name == "File Explorer" && type == "System Folder")
+            {
+                return DesktopEntryType.Directory;
+            }
+
+            var extension = global::System.IO.Path.GetExtension(shellLink.Target.Path);
+
+            if (!string.IsNullOrEmpty(extension))
+            {
+                if (extension.ToLower() == ".exe" && global::System.IO.File.Exists(shellLink.Target.Path))
+                {
+                    return DesktopEntryType.Application;
+                }
+            }
+            else if (extension == "" && Directory.Exists(shellLink.Target.Path))
+            {
+                return DesktopEntryType.Directory;
+            }
+
+            return DesktopEntryType.Invalid;
+        }
+
         private static DesktopEntryType GetLinkType(IWshShortcut shellLink)
         {
             if (shellLink == null || shellLink.TargetPath == null)
@@ -314,20 +420,44 @@ namespace WinDock.Plugins.Applications
             return actions;
         }
 
-        /*
-        private string OldResolve(string lnkFile)
+        private static Icon OldResolve(string lnkFile)
         {
-            var shl = new Shell();
+            var shl = new Shell32.Shell();
             var dir = shl.NameSpace(System.IO.Path.GetDirectoryName(lnkFile));
             var itm = dir.Items().Item(System.IO.Path.GetFileName(lnkFile));
-            var lnk = itm.GetLink;
+            var lnk = (Shell32.ShellLinkObject)itm.GetLink;
 
-            if(lnk != null)
-                lnk.Resolve(8);
+            if (lnk != null)
+            {
+                string iconLocation;
+                var index = lnk.GetIconLocation(out iconLocation);
+                iconLocation = Environment.ExpandEnvironmentVariables(iconLocation);
+                return Extract(iconLocation, index, true);
+            }
 
-            return lnk != null ? lnk.Path : ResolveShellLinkTargetMsi(lnkFile);
+            return null;
         }
 
+        public static Icon Extract(string file, int number, bool largeIcon)
+        {
+            IntPtr large;
+            IntPtr small;
+            ExtractIconEx(file, number, out large, out small, 1);
+            try
+            {
+                return Icon.FromHandle(largeIcon ? large : small);
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
+
+        [DllImport("Shell32.dll", EntryPoint = "ExtractIconExW", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        private static extern int ExtractIconEx(string sFile, int iIndex, out IntPtr piLargeVersion, out IntPtr piSmallVersion, int amountIcons);
+
+        /*
         private static string ResolveShellLinkTargetMsi(string lnkFile)
         {
             String product;

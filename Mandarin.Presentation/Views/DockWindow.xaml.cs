@@ -165,8 +165,8 @@ namespace WinDock.Presentation.Views
             screen = WpfScreen.Primary;
             Width = screen.WorkingArea.Width;
             Height = 300;
-            Left = 0;// screen.WorkingArea.Left;
-            Top = 0;// screen.WorkingArea.Bottom - 300;
+            Left = screen.WorkingArea.Left;
+            Top = screen.WorkingArea.Bottom / 2 - 300;
             SourceImage = new BitmapImage(new Uri(@"C:\Users\Thomas\Development\mandarin\Resources\Themes\MountainLion\background.png"));
 
             Messenger.Default.Register<NotificationMessage>(this, (m) =>
