@@ -12,7 +12,7 @@ namespace WinDock.PresentationModel.Design
     {
         public void GetDocks(Action<IEnumerable<Dock>, Exception> callback)
         {
-            var configuration = new DockConfiguration()
+            var configuration = new DockConfiguration
             {
                 ItemGroups = new List<string>
                 {

@@ -8,6 +8,7 @@ using WinDock.Business.Core;
 using WinDock.Plugins.Applications;
 using WinDock.Plugins.RecycleBin;
 using WinDock.Plugins.StartMenu;
+using WinDock.Business.Plugins.Clock;
 
 namespace WinDock.Business.Plugins
 {
@@ -26,7 +27,8 @@ namespace WinDock.Business.Plugins
             {
                 { "StartMenu", new Plugin(typeof(SingleDockItemGroup<StartMenuIcon>)) },
                 { "Applications", new Plugin(typeof(ApplicationIconGroup)) },
-                { "RecycleBin", new Plugin(typeof(SingleDockItemGroup<RecycleBinIcon>)) }
+                { "RecycleBin", new Plugin(typeof(SingleDockItemGroup<RecycleBinIcon>)) },
+                { "Clock", new Plugin(typeof(SingleDockItemGroup<ClockIcon>)) }
             };
 
             /*

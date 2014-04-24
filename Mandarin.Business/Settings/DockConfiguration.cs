@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using WinDock.Business.Themes;
 using WinDock.Business.Core;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace WinDock.Business.Settings
 {
@@ -16,7 +18,7 @@ namespace WinDock.Business.Settings
                     Name = "Dock",
                     Edge = ScreenEdge.Bottom,
                     ScreenIndex = 0,
-                    ItemGroups = new List<string> { "StartMenu", null, "Applications", null, "RecycleBin" },
+                    ItemGroups = new List<string> { "StartMenu", null, "Applications", null, "RecycleBin", "Clock" },
                     Autohide = false,
                     Reserve = false,
                     ThemeName = "MountainLion",
@@ -25,6 +27,37 @@ namespace WinDock.Business.Settings
             }
         }
 
+        public DockConfiguration()
+        {
+        }
+
+        public static DockConfiguration FromFile(string filename)
+        {
+            using (var reader = new StreamReader(filename))
+            {
+                string json = reader.ReadToEnd();
+                var config = JsonConvert.DeserializeObject<DockConfiguration>(json);
+                config.filename = filename;
+                return config;
+            }
+        }
+
+        public void Save()
+        {
+            var directory = Path.Combine(Paths.Docks, name);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+                filename = Path.Combine(directory, "dock.json");
+            }
+            using (var writer = new StreamWriter(filename, false))
+            {
+                string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                writer.Write(json);
+            }
+        }
+
+        private string filename;
         private string name;
         private ScreenEdge edge;
         private int screenIndex;

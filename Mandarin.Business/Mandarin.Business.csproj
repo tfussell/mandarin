@@ -55,6 +55,9 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell">
       <HintPath>..\..\libraries\Windows API Code Pack 1.1\binaries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\Downloads\Json60r2\Bin\Net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -88,6 +91,7 @@
     <Compile Include="Plugins\Applications\DesktopEntry.cs" />
     <Compile Include="Plugins\Applications\DesktopEntryManager.cs" />
     <Compile Include="Plugins\Applications\Taskbar.cs" />
+    <Compile Include="Plugins\Clock\ClockIcon.cs" />
     <Compile Include="Plugins\Plugin.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Plugins\RecycleBin\RecycleBinIcon.cs" />
@@ -128,7 +132,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Plugins\Clock\" />
     <Folder Include="Plugins\NotificationArea\" />
   </ItemGroup>
   <ItemGroup>

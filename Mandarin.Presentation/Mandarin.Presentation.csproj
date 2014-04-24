@@ -110,6 +110,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DockItemTemplateSelector.cs" />
+    <Compile Include="DockPositioner.cs" />
     <Compile Include="Views\DockItem.xaml.cs">
       <DependentUpon>DockItem.xaml</DependentUpon>
     </Compile>

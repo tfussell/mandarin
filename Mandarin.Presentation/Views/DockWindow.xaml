@@ -119,7 +119,8 @@
              x:Name="LayoutRoot" 
              MinHeight="50"
              MaxHeight="300"
-             VerticalAlignment="Bottom">
+             VerticalAlignment="Bottom"
+             MouseMove="LayoutRoot_MouseMove">
         <StackPanel Margin="20,0,20,0"
                     x:Name="ItemPanel"
                     VerticalAlignment="Bottom"

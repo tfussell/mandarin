@@ -69,12 +69,13 @@ namespace WinDock.Presentation.Views
         public static readonly DependencyProperty SourceImageProperty;
 
         private WpfScreen screen;
+        private DockPositioner positioner;
 
         static DockWindow()
         {
             ScreenIndexProperty = DependencyProperty.Register("ScreenIndex", typeof(int), typeof(DockWindow), new UIPropertyMetadata(0));
             EdgeProperty = DependencyProperty.Register("Edge", typeof(ScreenEdge), typeof(DockWindow), new UIPropertyMetadata(ScreenEdge.Bottom));
-            AutohideProperty = DependencyProperty.Register("Autohide", typeof(bool), typeof(DockWindow), new UIPropertyMetadata(false));
+            AutohideProperty = DependencyProperty.Register("Autohide", typeof(bool), typeof(DockWindow), new PropertyMetadata(false, OnAutohideChanged));
             ReserveProperty = DependencyProperty.Register("Reserve", typeof(bool), typeof(DockWindow), new UIPropertyMetadata(false));
             BlurEnabledProperty = DependencyProperty.Register("BlurEnabled", typeof(bool), typeof(DockWindow), new PropertyMetadata(true, OnBlurChanged));
             SourceImageProperty = DependencyProperty.Register("SourceImage", typeof(ImageSource), typeof(DockWindow), new PropertyMetadata(null, OnSourceImageChanged));
@@ -82,9 +83,19 @@ namespace WinDock.Presentation.Views
 
         public DockWindow()
         {
+            positioner = new DockPositioner(this);
             InitializeComponent();
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
             Closing += (s, e) => ViewModelLocator.Cleanup();
+
+            if (Autohide)
+            {
+                positioner.StartAutohide();
+            }
+            else
+            {
+                positioner.StopAutohide();
+            }
         }
 
         #region Window styles
@@ -179,6 +190,24 @@ namespace WinDock.Presentation.Views
                     }
                 }
             });
+        }
+
+        private static void OnAutohideChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var self = (DockWindow)sender;
+            self.OnAutohideChanged(sender, new EventArgs());
+        }
+
+        private void OnAutohideChanged(object sender, EventArgs e)
+        {
+            if ((bool)GetValue(AutohideProperty))
+            {
+                positioner.StartAutohide();
+            }
+            else
+            {
+                positioner.StopAutohide();
+            }
         }
 
         private void OnPositionChanged()
@@ -407,6 +436,11 @@ namespace WinDock.Presentation.Views
                     }
                 }
             }
+        }
+
+        private void LayoutRoot_MouseMove(object sender, MouseEventArgs e)
+        {
+            positioner.ResetTimer();
         }
     }
 }

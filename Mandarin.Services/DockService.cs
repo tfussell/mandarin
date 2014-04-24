@@ -20,7 +20,7 @@ namespace WinDock.Services
 
             var dockConfigurations = Directory.EnumerateDirectories(Paths.Docks)
                 .Where(d => File.Exists(Path.Combine(d, "dock.json")))
-                .Select(d => new DockConfiguration())
+                .Select(d => DockConfiguration.FromFile(Path.Combine(d, "dock.json")))
                 .DefaultIfEmpty(DockConfiguration.Default);
 
             var docks = dockConfigurations.Select(config => new Dock(config));

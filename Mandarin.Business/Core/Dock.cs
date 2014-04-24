@@ -54,6 +54,12 @@ namespace WinDock.Business.Core
             Initialize();
         }
 
+        public void OnClosed()
+        {
+            config.Save();
+            Closed.Invoke(null, new EventArgs());
+        }
+
         public void Initialize()
         {
             foreach (var name in config.ItemGroups)
@@ -78,7 +84,10 @@ namespace WinDock.Business.Core
         
         private void ConfigOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-
+            if (e.PropertyName == "Autohide")
+            {
+                PropertyChanged(sender, e);
+            }
         }
 
         public void Dispose()

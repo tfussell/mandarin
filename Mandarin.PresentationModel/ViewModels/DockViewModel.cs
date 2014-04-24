@@ -109,6 +109,7 @@ namespace WinDock.PresentationModel.ViewModels
 
         private void CloseDockWindow()
         {
+            Model.OnClosed();
             Messenger.Default.Send<NotificationMessage>(new NotificationMessage(this, "CloseDockWindow"));
         }
     }
