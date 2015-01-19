@@ -109,9 +109,8 @@
     <Content Include="Plugins\StartMenu.pdb" />
     <Content Include="Plugins\Weather.dll" />
     <Content Include="Plugins\Weather.pdb" />
-    <Content Include="Plugins\WinDock.Business.dll" />
-    <Content Include="Plugins\WinDock.Business.pdb" />
-    <Content Include="Plugins\WinDock3.Business.dll" />
+    <Content Include="Plugins\Mandarin.Business.dll" />
+    <Content Include="Plugins\Mandarin.Business.pdb" />
     <Content Include="Plugins\Wma.NotificationArea.dll" />
     <Content Include="Plugins\Wma.NotificationArea.pdb" />
     <Content Include="Plugins\Wma.Shell32.dll" />
