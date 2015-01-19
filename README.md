@@ -1,4 +1,4 @@
-https://github.com/tfussell/cort/edit/master/README.md
+<img height="100" src="http://tfussell.github.io/mandarin/images/mandarin.png"><br/>
 
 mandarin is a graphical application launcher written in C#/WPF for Windows&copy; in the style of [Docky](http://wiki.go-docky.com) or [Cairo-Dock](http://glx-dock.org).
 It is currently a work-in-progress and is not quite ready for general use.
