@@ -6,10 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using IWshRuntimeLibrary;
-using WinDock.Business.Core;
+using Mandarin.Business.Core;
 using System.Runtime.InteropServices;
 
-namespace WinDock.Plugins.StartMenu
+namespace Mandarin.Plugins.StartMenu
 {
     public class StartMenuIcon : DockItem
     {

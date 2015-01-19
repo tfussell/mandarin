@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WinDock.Business.Core
+namespace Mandarin.Business.Core
 {
     public class DockItemAction
     {

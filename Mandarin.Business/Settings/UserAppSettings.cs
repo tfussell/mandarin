@@ -1,4 +1,4 @@
-﻿namespace WinDock.Business.Settings
+﻿namespace Mandarin.Business.Settings
 {
     public class UserAppSettings : AppSettings
     {

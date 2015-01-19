@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.WindowsAPICodePack.Shell;
 
-namespace WinDock.Plugins.Applications
+namespace Mandarin.Plugins.Applications
 {
     public class AppUserModelId
     {

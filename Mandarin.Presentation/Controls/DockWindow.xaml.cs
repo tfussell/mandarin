@@ -1,22 +1,25 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Mandarin.Business.Core;
+using Mandarin.Presentation.Helpers;
+using Mandarin.PresentationModel.Locators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WinDock.Business.Core;
-using WinDock.PresentationModel.Locators;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using GalaSoft.MvvmLight.Messaging;
 
-namespace WinDock.Presentation.Views
+namespace Mandarin.Presentation.Controls
 {
     /// <summary>
     /// Interaction logic for DockWindow.xaml
@@ -71,6 +74,16 @@ namespace WinDock.Presentation.Views
         private WpfScreen screen;
         private DockPositioner positioner;
 
+        private StackPanel ItemPanel
+        {
+            get { return (StackPanel)((Viewbox)Content).Child; }
+        }
+
+        private Viewbox LayoutRoot
+        {
+            get { return (Viewbox)Content; }
+        }
+
         static DockWindow()
         {
             ScreenIndexProperty = DependencyProperty.Register("ScreenIndex", typeof(int), typeof(DockWindow), new UIPropertyMetadata(0));
@@ -84,8 +97,9 @@ namespace WinDock.Presentation.Views
         public DockWindow()
         {
             positioner = new DockPositioner(this);
-            InitializeComponent();
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+
+            Loaded += Window_Loaded;
             Closing += (s, e) => ViewModelLocator.Cleanup();
 
             if (Autohide)
@@ -96,6 +110,34 @@ namespace WinDock.Presentation.Views
             {
                 positioner.StopAutohide();
             }
+        }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            screen = WpfScreen.Primary;
+            Width = screen.WorkingArea.Width;
+            Height = 300;
+            Left = screen.WorkingArea.Left;
+            Top = screen.WorkingArea.Bottom / 2 - 300;
+            SourceImage = new BitmapImage(new Uri(@"C:\Users\Thomas\Development\mandarin\Resources\Themes\MountainLion\background.png"));
+
+            Messenger.Default.Register<NotificationMessage>(this, (m) =>
+            {
+                if (m.Notification == "CloseDockWindow")
+                {
+                    if (m.Sender == DataContext)
+                    {
+                        Close();
+                    }
+                }
+            });
         }
 
         #region Window styles
@@ -115,9 +157,9 @@ namespace WinDock.Presentation.Views
         }
 
         [DllImport("user32.dll")]
-        public static extern IntPtr GetWindowLong(IntPtr hWnd, int nIndex);
+        internal static extern IntPtr GetWindowLong(IntPtr hWnd, int nIndex);
 
-        public static IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
+        internal static IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
         {
             int error = 0;
             IntPtr result = IntPtr.Zero;
@@ -161,7 +203,7 @@ namespace WinDock.Presentation.Views
         public static extern void SetLastError(int dwErrorCode);
         #endregion
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        public void Window_Loaded(object sender, RoutedEventArgs e)
         {
             WindowInteropHelper wndHelper = new WindowInteropHelper(this);
 
@@ -173,23 +215,7 @@ namespace WinDock.Presentation.Views
 
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
-            screen = WpfScreen.Primary;
-            Width = screen.WorkingArea.Width;
-            Height = 300;
-            Left = screen.WorkingArea.Left;
-            Top = screen.WorkingArea.Bottom / 2 - 300;
-            SourceImage = new BitmapImage(new Uri(@"C:\Users\Thomas\Development\mandarin\Resources\Themes\MountainLion\background.png"));
 
-            Messenger.Default.Register<NotificationMessage>(this, (m) =>
-            {
-                if (m.Notification == "CloseDockWindow")
-                {
-                    if (m.Sender == DataContext)
-                    {
-                        Close();
-                    }
-                }
-            });
         }
 
         private static void OnAutohideChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -271,7 +297,7 @@ namespace WinDock.Presentation.Views
 
         private void UpdateBackgroundImage()
         {
-            if (SourceImage == null || LayoutRoot.RenderSize.Width == 0 || LayoutRoot.RenderSize.Height == 0)
+            if (SourceImage == null || LayoutRoot == null || LayoutRoot.RenderSize.Width == 0 || LayoutRoot.RenderSize.Height == 0)
             {
                 Background = Brushes.Transparent;
                 return;
@@ -436,11 +462,6 @@ namespace WinDock.Presentation.Views
                     }
                 }
             }
-        }
-
-        private void LayoutRoot_MouseMove(object sender, MouseEventArgs e)
-        {
-            positioner.ResetTimer();
         }
     }
 }

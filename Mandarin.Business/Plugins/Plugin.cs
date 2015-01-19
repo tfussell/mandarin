@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.IO;
-using WinDock.Business.Core;
+using Mandarin.Business.Core;
 
-namespace WinDock.Business.Plugins
+namespace Mandarin.Business.Plugins
 {
     public class Plugin
     {

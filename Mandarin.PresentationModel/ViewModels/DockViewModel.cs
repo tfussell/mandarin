@@ -2,28 +2,30 @@
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight;
-using WinDock.Business.Core;
+using Mandarin.Business.Core;
 using System.IO;
 using System.Linq;
-using WinDock.Plugins.Applications;
+using Mandarin.Plugins.Applications;
 using System.Drawing;
-using WinDock.Plugins.RecycleBin;
+using Mandarin.Plugins.RecycleBin;
 using System.Collections.Generic;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
-namespace WinDock.PresentationModel.ViewModels
+namespace Mandarin.PresentationModel.ViewModels
 {
     public class DockViewModel : ViewModelBase
     {
         public const string ItemsPropertyName = "Items";
         public const string IsDirtyPropertyName = "IsDirty";
         public const string ContextMenuPropertyName = "ContextMenu";
+        public const string AutohidePropertyName = "Autohide";
 
         private IEnumerable<ContextMenuItemViewModel> contextMenu;
         private ObservableCollection<DockItemViewModel> items;
         private bool isDirty;
+        private bool autohide;
 
         public ObservableCollection<DockItemViewModel> Items
         {
@@ -58,6 +60,17 @@ namespace WinDock.PresentationModel.ViewModels
             }
         }
 
+        public bool Autohide
+        {
+            get { return autohide; }
+            set
+            {
+                if (Equals(autohide, value)) return;
+                autohide = value;
+                RaisePropertyChanged(AutohidePropertyName);
+            }
+        }
+
         public Dock Model
         {
             get;
@@ -89,6 +102,10 @@ namespace WinDock.PresentationModel.ViewModels
             Model = model;
             Model.PropertyChanged += (s, e) =>
             {
+                if (e.PropertyName == AutohidePropertyName)
+                {
+                    Autohide = model.Configuration.Autohide;
+                }
                 IsDirty = true;
             };
 
@@ -105,6 +122,8 @@ namespace WinDock.PresentationModel.ViewModels
                 new ContextMenuItemViewModel(DockItemAction.CreateToggle("Autohide Dock", () => Model.Configuration.Autohide = true, () => Model.Configuration.Autohide = false, Model.Configuration.Autohide)),
                 new ContextMenuItemViewModel(DockItemAction.CreateNormal("Close", CloseDockWindow))
             };
+
+            
         }
 
         private void CloseDockWindow()

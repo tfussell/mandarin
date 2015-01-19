@@ -5,9 +5,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
-using WinDock.Business.Core;
+using Mandarin.Business.Core;
 
-namespace WinDock.Plugins.RecycleBin
+namespace Mandarin.Plugins.RecycleBin
 {
     public class RecycleBinIcon : DockItem
     {

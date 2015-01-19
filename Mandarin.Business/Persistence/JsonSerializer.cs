@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
-namespace WinDock.Business.Persistence
+namespace Mandarin.Business.Persistence
 {
     public abstract class JsonSerializer<T> : Serializer<T> where T : new()
     {

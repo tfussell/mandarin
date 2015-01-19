@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WinDock.Business.Settings;
-using WinDock.Business.Core;
+using Mandarin.Business.Settings;
+using Mandarin.Business.Core;
 
-namespace WinDock.Business
+namespace Mandarin.Business
 {
     public class Application : IDisposable
     {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using WinDock.Business;
-using WinDock.Business.Core;
+using Mandarin.Business;
+using Mandarin.Business.Core;
 using WindowsManagedApi.User32;
 
-namespace WinDock.Plugins.Applications
+namespace Mandarin.Plugins.Applications
 {
     public class ApplicationDockItem : IconDockItem
     {

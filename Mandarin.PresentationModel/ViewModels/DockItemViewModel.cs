@@ -4,14 +4,14 @@ using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight;
-using WinDock.Business.Core;
+using Mandarin.Business.Core;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 
-namespace WinDock.PresentationModel.ViewModels
+namespace Mandarin.PresentationModel.ViewModels
 {
     public class DockItemViewModel : ViewModelBase
     {

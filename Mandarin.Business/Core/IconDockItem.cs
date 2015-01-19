@@ -1,4 +1,4 @@
-﻿namespace WinDock.Business.Core
+﻿namespace Mandarin.Business.Core
 {
     public abstract class IconDockItem : DockItem
     {

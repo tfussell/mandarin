@@ -1,4 +1,4 @@
-﻿namespace WinDock.Business.Persistence
+﻿namespace Mandarin.Business.Persistence
 {
     public abstract class Serializer<T> where T : new()
     {

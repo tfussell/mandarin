@@ -1,14 +1,14 @@
-﻿<Application x:Class="WinDock.Presentation.App"
+﻿<Application x:Class="Mandarin.Presentation.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vml="clr-namespace:WinDock.PresentationModel.Locators;assembly=WinDock.PresentationModel"
+             xmlns:mvm="clr-namespace:Mandarin.PresentationModel.Locators;assembly=Mandarin.PresentationModel"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
     
     <Application.Resources>
         <!--Global View Model Locator-->
-        <vml:ViewModelLocator x:Key="Locator"
+        <mvm:ViewModelLocator x:Key="Locator"
                               d:IsDataSource="True" />
     </Application.Resources>
     

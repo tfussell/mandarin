@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WinDock.Business.Core
+namespace Mandarin.Business.Core
 {
     public class SingleDockItemGroup<T> : DockItemGroup where T : DockItem, new()
     {

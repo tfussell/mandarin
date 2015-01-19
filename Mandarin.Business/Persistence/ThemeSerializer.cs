@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using WinDock.Business.Themes;
+using Mandarin.Business.Themes;
 
-namespace WinDock.Business.Persistence
+namespace Mandarin.Business.Persistence
 {
     public class ThemeSerializer : JsonSerializer<Theme>
     {

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using IWshRuntimeLibrary;
 
-namespace WinDock.Plugins.Applications
+namespace Mandarin.Plugins.Applications
 {
     public class DesktopAction
     {

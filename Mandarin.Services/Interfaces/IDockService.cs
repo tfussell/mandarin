@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WinDock.Business.Core;
+using Mandarin.Business.Core;
 
-namespace WinDock.Services.Interfaces
+namespace Mandarin.Services.Interfaces
 {
     public interface IDockService
     {

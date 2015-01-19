@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace WinDock.Business.Settings
+namespace Mandarin.Business.Settings
 {
     /// <summary>
     /// Represents the set of configuration properties needed by any services.

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 
-namespace WinDock.Business.Core
+namespace Mandarin.Business.Core
 {
     public static class Paths
     {
@@ -19,12 +19,12 @@ namespace WinDock.Business.Core
 
         static Paths()
         {
-            AppName = "WinDock";
+            AppName = "Mandarin";
             ApplicationData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName);
             System = Environment.SystemDirectory;
             SystemRoot = Path.GetPathRoot(Environment.SystemDirectory);
             SystemIconFile = Path.Combine(System, "imageres.dll");
-            Resources = @"C:\Users\William\Documents\Visual Studio 2010\Projects\WinDock\Resources";
+            Resources = @"C:\Users\Thomas\Development\mandarin\Resources";
             Docks = Path.Combine(ApplicationData, "Docks");
             Plugins = Path.Combine(ApplicationData, "Plugins");
             Themes = Path.Combine(ApplicationData, "Themes");

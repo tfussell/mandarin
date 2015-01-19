@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Web.Script.Serialization;
-using WinDock.Business.Settings;
+using Mandarin.Business.Settings;
 
-namespace WinDock.Business.Themes
+namespace Mandarin.Business.Themes
 {
     public class Theme
     {

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace WinDock.Business.Themes
+namespace Mandarin.Business.Themes
 {
     public class DockStyle : BoundableTheme
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
-using WinDock.Business.Themes;
+using Mandarin.Business.Themes;
 
-namespace WinDock.Business.Core
+namespace Mandarin.Business.Core
 {
     /// <summary>
     /// An abstract class representing any bounded displayable item on a dock.

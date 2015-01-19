@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using WinDock.Business.Themes;
-using WinDock.Business.Core;
+using Mandarin.Business.Themes;
+using Mandarin.Business.Core;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace WinDock.Business.Settings
+namespace Mandarin.Business.Settings
 {
     public class DockConfiguration : INotifyPropertyChanged
     {

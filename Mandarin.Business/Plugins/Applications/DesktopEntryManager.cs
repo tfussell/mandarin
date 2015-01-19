@@ -6,10 +6,10 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Drawing;
 using IWshRuntimeLibrary;
-using WinDock.Business.Core;
+using Mandarin.Business.Core;
 using System.Runtime.InteropServices;
 
-namespace WinDock.Plugins.Applications
+namespace Mandarin.Plugins.Applications
 {
     public class DesktopEntryManager
     {

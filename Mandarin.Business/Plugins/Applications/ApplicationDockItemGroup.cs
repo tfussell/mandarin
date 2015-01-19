@@ -5,11 +5,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Collections.Specialized;
-using WinDock.Business.Settings;
-using WinDock.Business.Core;
-using WinDock.Business.Events;
+using Mandarin.Business.Settings;
+using Mandarin.Business.Core;
+using Mandarin.Business.Events;
 
-namespace WinDock.Plugins.Applications
+namespace Mandarin.Plugins.Applications
 {
     public class ApplicationIconGroup : DockItemGroup
     {
@@ -17,7 +17,7 @@ namespace WinDock.Plugins.Applications
 
         static ApplicationIconGroup()
         {
-            PinnedIconsFolder = Path.Combine(ConfigurationController.ApplicationDataFolder, "WinDockPinned");
+            PinnedIconsFolder = Path.Combine(ConfigurationController.ApplicationDataFolder, "MandarinPinned");
         }
 
         private readonly OrderedDictionary items;

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WinDock.Services.Interfaces;
-using WinDock.Business.Core;
-using WinDock.Business.Settings;
+using Mandarin.Services.Interfaces;
+using Mandarin.Business.Core;
+using Mandarin.Business.Settings;
 
-namespace WinDock.PresentationModel.Design
+namespace Mandarin.PresentationModel.Design
 {
     class DesignDockService : IDockService
     {

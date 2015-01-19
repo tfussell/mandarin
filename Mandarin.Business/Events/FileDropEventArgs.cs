@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinDock.Business.Events
+namespace Mandarin.Business.Events
 {
     public enum DockDropType
     {

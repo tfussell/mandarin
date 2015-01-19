@@ -2,7 +2,7 @@
 using System.IO;
 using System.Web.Script.Serialization;
 
-namespace WinDock.Business.Settings
+namespace Mandarin.Business.Settings
 {
     public class ThemeConfiguration : INotifyPropertyChanged
     {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Win32;
 
-namespace WinDock.Plugins.Applications
+namespace Mandarin.Plugins.Applications
 {
     internal class Taskbar : IDisposable
     {

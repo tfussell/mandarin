@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 
-namespace WinDock.Presentation
+namespace Mandarin.Presentation.Helpers
 {
     public class WpfScreen
     {

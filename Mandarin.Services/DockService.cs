@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WinDock.Business.Core;
-using WinDock.Services.Interfaces;
+using Mandarin.Business.Core;
+using Mandarin.Services.Interfaces;
 using System.IO;
-using WinDock.Business.Settings;
+using Mandarin.Business.Settings;
 
-namespace WinDock.Services
+namespace Mandarin.Services
 {
     public class DockService : IDockService
     {
@@ -23,7 +23,7 @@ namespace WinDock.Services
                 .Select(d => DockConfiguration.FromFile(Path.Combine(d, "dock.json")))
                 .DefaultIfEmpty(DockConfiguration.Default);
 
-            var docks = dockConfigurations.Select(config => new Dock(config));
+            var docks = dockConfigurations.Select(config => new Dock(config)).ToList();
 
             callback(docks, null);
         }

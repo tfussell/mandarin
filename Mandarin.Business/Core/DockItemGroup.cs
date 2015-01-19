@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using WinDock.Business.Core;
-using WinDock.Business.Events;
-using WinDock.Business.Plugins;
+using Mandarin.Business.Core;
+using Mandarin.Business.Events;
+using Mandarin.Business.Plugins;
 
-namespace WinDock.Business.Core
+namespace Mandarin.Business.Core
 {
     public abstract class DockItemGroup
     {

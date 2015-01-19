@@ -1,7 +1,7 @@
 ﻿/*
   In App.xaml:
   <Application.Resources>
-      <vm:ViewModelLocatorTemplate xmlns:vm="clr-namespace:WinDock.Presentation.ViewModel"
+      <vm:ViewModelLocatorTemplate xmlns:vm="clr-namespace:Mandarin.Presentation.ViewModel"
                                    x:Key="Locator" />
   </Application.Resources>
   
@@ -12,12 +12,12 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using WinDock.PresentationModel.Design;
-using WinDock.PresentationModel.ViewModels;
-using WinDock.Services.Interfaces;
-using WinDock.Services;
+using Mandarin.PresentationModel.Design;
+using Mandarin.PresentationModel.ViewModels;
+using Mandarin.Services.Interfaces;
+using Mandarin.Services;
 
-namespace WinDock.PresentationModel.Locators
+namespace Mandarin.PresentationModel.Locators
 {
     /// <summary>
     /// This class contains static references to all the view models in the

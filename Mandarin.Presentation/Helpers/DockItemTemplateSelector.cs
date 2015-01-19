@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows;
-using WinDock.PresentationModel.ViewModels;
+using Mandarin.PresentationModel.ViewModels;
 
-namespace WinDock.Presentation
+namespace Mandarin.Presentation.Helpers
 {
     class DockItemTemplateSelector : DataTemplateSelector
     {

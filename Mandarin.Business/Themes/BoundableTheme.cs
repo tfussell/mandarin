@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 
-namespace WinDock.Business.Themes
+namespace Mandarin.Business.Themes
 {
     public class Padding
     {

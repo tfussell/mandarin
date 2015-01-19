@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using WinDock.Business.Core;
+using Mandarin.Business.Core;
 
-namespace WinDock.PresentationModel.ViewModels
+namespace Mandarin.PresentationModel.ViewModels
 {
     /// <summary>
     /// This class contains properties that a View can data bind to.

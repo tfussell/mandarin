@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace WinDock.Business.Core
+namespace Mandarin.Business.Core
 {
     internal class ItemGroupList
     {

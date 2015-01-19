@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WinDock.Business.Events
+namespace Mandarin.Business.Events
 {
     public enum ItemsChangedEventType
     {

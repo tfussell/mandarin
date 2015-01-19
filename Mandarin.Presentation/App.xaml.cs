@@ -1,12 +1,13 @@
 ﻿using System.Windows;
 using GalaSoft.MvvmLight.Threading;
-using WinDock.PresentationModel.Locators;
+using Mandarin.PresentationModel.Locators;
 using System;
-using WinDock.Presentation.Views;
-using WinDock.Services;
-using WinDock.PresentationModel.ViewModels;
+using Mandarin.Presentation.Views;
+using Mandarin.Services;
+using Mandarin.PresentationModel.ViewModels;
+using Mandarin.Presentation.Controls;
 
-namespace WinDock.Presentation
+namespace Mandarin.Presentation
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -36,7 +37,7 @@ namespace WinDock.Presentation
 
                 foreach (var dock in docks)
                 {
-                    var window = new DockWindow();
+                    var window = new DockView();
                     var dockViewModel = new DockViewModel(dock);
                     window.DataContext = dockViewModel;
                     window.Show();

@@ -1,4 +1,4 @@
-﻿namespace WinDock.Business.Persistence.ThemeFormats
+﻿namespace Mandarin.Business.Persistence.ThemeFormats
 {
     interface IThemeFormat
     {

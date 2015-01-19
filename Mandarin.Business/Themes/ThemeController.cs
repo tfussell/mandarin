@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using WinDock.Business.Settings;
+using Mandarin.Business.Settings;
 
-namespace WinDock.Business.Themes
+namespace Mandarin.Business.Themes
 {
     class ThemeController
     {

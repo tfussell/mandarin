@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using WinDock.Business.Settings;
-using WinDock.Business.Events;
+using Mandarin.Business.Settings;
+using Mandarin.Business.Events;
 
-namespace WinDock.Business.Core
+namespace Mandarin.Business.Core
 {
     public enum ScreenEdge
     {

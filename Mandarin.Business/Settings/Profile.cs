@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace WinDock.Business.Settings
+namespace Mandarin.Business.Settings
 {
     public class Profile : INotifyPropertyChanged
     {

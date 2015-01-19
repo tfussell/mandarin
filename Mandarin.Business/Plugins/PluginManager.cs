@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using WinDock.Business.Core;
-using WinDock.Plugins.Applications;
-using WinDock.Plugins.RecycleBin;
-using WinDock.Plugins.StartMenu;
-using WinDock.Business.Plugins.Clock;
+using Mandarin.Business.Core;
+using Mandarin.Plugins.Applications;
+using Mandarin.Plugins.RecycleBin;
+using Mandarin.Plugins.StartMenu;
+using Mandarin.Business.Plugins.Clock;
 
-namespace WinDock.Business.Plugins
+namespace Mandarin.Business.Plugins
 {
     public class PluginManager
     {
