@@ -27,7 +27,7 @@ namespace Mandarin.Business.Settings
         static ConfigurationController()
         {
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            ApplicationDataFolder = Path.Combine(appData, "DOSk");
+            ApplicationDataFolder = Path.Combine(appData, "Mandarin");
         }
 
         public ConfigurationController()

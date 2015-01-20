@@ -17,7 +17,7 @@ namespace Mandarin.Plugins.Applications
 
         static ApplicationIconGroup()
         {
-            PinnedIconsFolder = Path.Combine(ConfigurationController.ApplicationDataFolder, "MandarinPinned");
+            PinnedIconsFolder = Path.Combine(ConfigurationController.ApplicationDataFolder, "Pinned");
         }
 
         private readonly OrderedDictionary items;
@@ -31,11 +31,11 @@ namespace Mandarin.Plugins.Applications
         private void LoadIcons()
         {
             // Load application shortcuts from existing folder if possible
-            if (Directory.Exists(PinnedIconsFolder))
+            if (Directory.Exists(PinnedIconsFolder) && Directory.GetFiles(PinnedIconsFolder).Where(s => new FileInfo(s).Attributes.HasFlag(FileAttributes.Hidden) == false).Count() > 0)
             {
                 foreach (var appIconShortcutFile in Directory.GetFiles(PinnedIconsFolder))
                 {
-                    var entry = DesktopEntryManager.FromShellLinkFile(appIconShortcutFile);
+                    var entry = DesktopEntryManager.FromFile(appIconShortcutFile);
                     try
                     {
                         var possibleAppIds = AppUserModelId.Find(entry.TryExec);
@@ -76,6 +76,8 @@ namespace Mandarin.Plugins.Applications
                                 items.Add(appId.Id, new ApplicationDockItem(item));
                             }
                         }
+
+                        //item.ToFile(Path.Combine(PinnedIconsFolder, item.Name));
                     }
                 }
             }

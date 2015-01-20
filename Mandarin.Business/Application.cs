@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mandarin.Business.Settings;
 using Mandarin.Business.Core;
+using Mandarin.Plugins.Applications;
 
 namespace Mandarin.Business
 {

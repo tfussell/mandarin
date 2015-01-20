@@ -974,7 +974,7 @@ public ref struct Functions {
 	*/
 	static bool IsIconic(IntPtr hWnd)
 	{
-		throw gcnew NotImplementedException();
+		return ::IsIconic((HWND)hWnd.ToInt32());
 	}
 
 	/*
@@ -1186,7 +1186,7 @@ public ref struct Functions {
 	*/
 	static bool SetForegroundWindow(IntPtr hWnd)
 	{
-		throw gcnew NotImplementedException();
+		return ::SetForegroundWindow((HWND)hWnd.ToInt32());
 	}
 
 	/*

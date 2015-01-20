@@ -6,6 +6,10 @@ using Mandarin.Presentation.Views;
 using Mandarin.Services;
 using Mandarin.PresentationModel.ViewModels;
 using Mandarin.Presentation.Controls;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace Mandarin.Presentation
 {

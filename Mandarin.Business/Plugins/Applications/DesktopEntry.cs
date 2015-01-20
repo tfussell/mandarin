@@ -139,5 +139,32 @@ namespace Mandarin.Plugins.Applications
                 };
             }
         }
+
+
+        public void ToFile(string savePath)
+        {
+            string ext = "";
+
+            switch (Type)
+            {
+                case DesktopEntryType.Application: ext = ".desktop"; break;
+                case DesktopEntryType.Directory: ext = ".directory"; break;
+                case DesktopEntryType.Invalid: ext = ".invalid"; break;
+                case DesktopEntryType.Link: ext = ".lnk"; break;
+            }
+
+            using (var writer = new StreamWriter(new FileStream(savePath + ext, FileMode.Create)))
+            {
+                writer.WriteLine("[Desktop Entry]");
+                writer.WriteLine("Name=" + Name);
+                writer.WriteLine("Path=" + Path);
+                writer.WriteLine("Icon=" + "-");
+                writer.WriteLine("Comment=", Comment);
+                writer.WriteLine("URL=" + "-");
+                writer.WriteLine("Exec=", Exec);
+                writer.WriteLine("TryExec=", TryExec);
+                writer.WriteLine("Type=" + Type.ToString());
+            }
+        }
     }
 }

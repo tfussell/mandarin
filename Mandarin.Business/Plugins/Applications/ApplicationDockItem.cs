@@ -29,7 +29,7 @@ namespace Mandarin.Plugins.Applications
             Autorun = false;
             Pinned = false;
 
-            WindowHandles = new Dictionary<IntPtr, IntPtr>();
+            WindowHandles = FindWindowHandles();
 
             var v = AppUserModelId.Find(windowHandle).Where(a => File.Exists(a.DestinationList));
             ApplicationId = v.Single().Id;
@@ -39,7 +39,7 @@ namespace Mandarin.Plugins.Applications
         {
             DesktopEntry = entry;
 
-            WindowHandles = new Dictionary<IntPtr, IntPtr>();
+            WindowHandles = FindWindowHandles();
 
             Autorun = false;
             Pinned = true;
@@ -52,6 +52,28 @@ namespace Mandarin.Plugins.Applications
             {
                 ReflectionImage = CreateReflection(Image);
             }
+        }
+
+        private void RegisterWindowHook()
+        {
+
+        }
+
+        private Dictionary<IntPtr, IntPtr> FindWindowHandles()
+        {
+            var handles = new Dictionary<IntPtr, IntPtr>();
+            if (DesktopEntry.TryExec != null)
+            {
+                foreach (var process in Process.GetProcesses())
+                {
+                    if (process.MainWindowHandle == IntPtr.Zero) continue;
+                    if (process.MainModule.FileName == DesktopEntry.TryExec)
+                    {
+                        handles.Add((IntPtr)process.Id, process.MainWindowHandle);
+                    }
+                }
+            }
+            return handles;
         }
 
         protected override void OnLeftClick(object sender, EventArgs e)
@@ -92,8 +114,7 @@ namespace Mandarin.Plugins.Applications
                     Active = true;
                 }
 
-                //var handle = WindowsManagedApi.User32.Functions.
-                //RegisterWindowHandle(new IntPtr(p.Id), p.MainWindowHandle);
+                RegisterWindowHandle(new IntPtr(p.Id), p.MainWindowHandle);
             }
             else
             {
