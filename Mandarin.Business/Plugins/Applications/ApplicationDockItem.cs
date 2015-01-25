@@ -6,6 +6,7 @@ using System.Linq;
 using Mandarin.Business;
 using Mandarin.Business.Core;
 using WindowsManagedApi.User32;
+using System.Runtime.InteropServices;
 
 namespace Mandarin.Plugins.Applications
 {
@@ -19,27 +20,39 @@ namespace Mandarin.Plugins.Applications
         }
 
         private string DisplayName { get; set; }
-        private string ApplicationId { get; set; }
+        public AppUserModelId AppId { get; set; }
         public bool Pinned { get; set; }
         private bool Autorun { get; set; }
-        private Dictionary<IntPtr, IntPtr> WindowHandles { get; set; }
+        private List<IntPtr> WindowHandles { get; set; }
 
         public ApplicationDockItem(IntPtr windowHandle)
         {
+            WindowHandles = new List<IntPtr> { windowHandle };
+
             Autorun = false;
             Pinned = false;
 
-            WindowHandles = FindWindowHandles();
+            var possibleIds = AppUserModelId.Find(windowHandle);
+            AppId = possibleIds.Where(a => File.Exists(a.DestinationList)).FirstOrDefault();
+            if(AppId == null)
+            {
+                AppId = possibleIds.FirstOrDefault();
+            }
 
-            var v = AppUserModelId.Find(windowHandle).Where(a => File.Exists(a.DestinationList));
-            ApplicationId = v.Single().Id;
+            if (AppId != null)
+            {
+                DesktopEntry = new DesktopEntry()
+                {
+                    TryExec = AppId.Executable
+                };
+            }
         }
 
         public ApplicationDockItem(DesktopEntry entry)
         {
-            DesktopEntry = entry;
+            WindowHandles = new List<IntPtr>();
 
-            WindowHandles = FindWindowHandles();
+            DesktopEntry = entry;
 
             Autorun = false;
             Pinned = true;
@@ -48,32 +61,24 @@ namespace Mandarin.Plugins.Applications
 
             Image = entry.Icon;
 
-            if (Image != null)
+            if (entry.Type == DesktopEntryType.Application)
             {
-                ReflectionImage = CreateReflection(Image);
-            }
-        }
-
-        private void RegisterWindowHook()
-        {
-
-        }
-
-        private Dictionary<IntPtr, IntPtr> FindWindowHandles()
-        {
-            var handles = new Dictionary<IntPtr, IntPtr>();
-            if (DesktopEntry.TryExec != null)
-            {
-                foreach (var process in Process.GetProcesses())
+                var possitiblities = AppUserModelId.Find(entry.TryExec);
+                AppId = AppUserModelId.Find(entry.TryExec).Where(a => File.Exists(a.DestinationList)).FirstOrDefault();
+                if(AppId == null)
                 {
-                    if (process.MainWindowHandle == IntPtr.Zero) continue;
-                    if (process.MainModule.FileName == DesktopEntry.TryExec)
-                    {
-                        handles.Add((IntPtr)process.Id, process.MainWindowHandle);
-                    }
+                    AppId = possitiblities.FirstOrDefault();
                 }
             }
-            return handles;
+            else
+            {
+                AppId = AppUserModelId.FromExplicitAppId("C:\\Windows\\explorer.exe", "Microsoft.Windows.Explorer").First();
+            }
+        }
+
+        public bool HasRegisteredWindowHandle(IntPtr hWnd)
+        {
+            return WindowHandles.Contains(hWnd);
         }
 
         protected override void OnLeftClick(object sender, EventArgs e)
@@ -81,14 +86,16 @@ namespace Mandarin.Plugins.Applications
             LaunchOrShow();
         }
 
-        public void RegisterWindowHandle(IntPtr processId, IntPtr windowHandle)
+        public void RegisterWindowHandle(IntPtr hWnd)
         {
-            WindowHandles.Add(processId, windowHandle);
+            WindowHandles.Add(hWnd);
+            Active = true;
         }
 
-        public void UnregisterWindowHandle(IntPtr processId)
+        public void UnregisterWindowHandle(IntPtr hWnd)
         {
-            WindowHandles.Remove(processId);
+            WindowHandles.Remove(hWnd);
+            if (!Running) Active = false;
         }
 
         private void LaunchOrShow()
@@ -113,8 +120,6 @@ namespace Mandarin.Plugins.Applications
                 {
                     Active = true;
                 }
-
-                RegisterWindowHandle(new IntPtr(p.Id), p.MainWindowHandle);
             }
             else
             {
@@ -126,9 +131,9 @@ namespace Mandarin.Plugins.Applications
         {
             foreach (var p in WindowHandles)
             {
-                if (p.Value != IntPtr.Zero)
+                if (p != IntPtr.Zero)
                 {
-                    MoveToFront(p.Value);
+                    MoveToFront(p);
                 }
             }
         }
@@ -148,11 +153,16 @@ namespace Mandarin.Plugins.Applications
             Process.Start("explorer.exe", "/select, " + DesktopEntry.TryExec);
         }
 
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
         private void Quit()
         {
             foreach (var handle in WindowHandles)
             {
-                Process.GetProcessById((int)handle.Key).CloseMainWindow();
+                uint processId = 0;
+                GetWindowThreadProcessId(handle, out processId);
+                Process.GetProcessById((int)processId).CloseMainWindow();
             }
 
             Active = false;

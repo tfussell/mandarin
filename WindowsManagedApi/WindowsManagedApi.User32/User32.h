@@ -1361,7 +1361,7 @@ public ref struct Functions {
 	*/
 	static bool ShowWindow(IntPtr hWnd, int nCmdShow)
 	{
-		throw gcnew NotImplementedException();
+		return ::ShowWindow((HWND)hWnd.ToInt32(), nCmdShow) == TRUE;
 	}
 
 	/*

@@ -110,7 +110,7 @@
             SeparatorTemplate="{StaticResource SeparatorTemplate}"
             x:Key="DockItemTemplateSelector" />
     </mpc:DockWindow.Resources>
-    <Viewbox Height="70" 
+    <Viewbox Height="60" 
              Stretch="Uniform" 
              x:Name="LayoutRoot" 
              MinHeight="50"

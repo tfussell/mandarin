@@ -191,14 +191,14 @@ namespace Mandarin.Plugins.Applications
             }
         }
 
-        private AppUserModelId(string executable, string appId, bool custom)
+        public AppUserModelId(string executable, string appId, bool custom)
         {
             Executable = executable;
             Id = appId;
             Custom = custom;
         }
 
-        private string Executable { get; set; }
+        public string Executable { get; set; }
         public string Id { get; set; }
         private bool Custom { get; set; }
         public string DestinationList
@@ -233,13 +233,12 @@ namespace Mandarin.Plugins.Applications
                 return new List<AppUserModelId> { new AppUserModelId(process.MainModule.FileName, appId, true) };
             }
 
-            // No associated windows or those windows didn't define an explicit AppId
-            // So, try to build an automatic AppId from the location and executable name
-            var path = Path.GetDirectoryName(process.MainModule.FileName);
-            path = TrySubstituteEnvironmentVariable(path);
-            var paths = TryReplaceWithKnownFolder(path);
-            var appIds = CalculateAppIds(true, Path.GetFileName(process.MainModule.FileName), paths);
-            return appIds.Select(a => new AppUserModelId(process.MainModule.FileName, a, false)).ToList();
+            if(process.MainModule.FileName == "C:\\Windows\\Explorer.EXE")
+            {
+                return FromExplicitAppId("C:\\Windows\\explorer.exe", "Microsoft.Windows.Explorer");
+            }
+
+            return Find(process.MainModule.FileName);
         }
 
         public static IEnumerable<AppUserModelId> FromExplicitAppId(string executable, string explicitId)
@@ -263,7 +262,7 @@ namespace Mandarin.Plugins.Applications
                 {
                     var data = CreateFormattedName(explicitId);
                     var appId = CalculateCrc64(data);
-                    return new List<AppUserModelId> { new AppUserModelId("", appId, true) };
+                    return new List<AppUserModelId> { new AppUserModelId(process.MainModule.FileName, appId, true) };
                 }
             }
 
@@ -280,15 +279,17 @@ namespace Mandarin.Plugins.Applications
         private static List<string> TryReplaceWithKnownFolder(string path)
         {
             var splitPath = path.Split(Path.DirectorySeparatorChar).ToArray();
+            splitPath[0] = splitPath[0] + Path.DirectorySeparatorChar;
             int depth = splitPath.Count();
             while (depth > 0)
             {
+                var pathSegment = Path.Combine(splitPath.Take(depth).ToArray());
                 foreach (var knownFolder in KnownFolders.All)
                 {
                     var splitKnownFolderPath = knownFolder.Path.Split(Path.DirectorySeparatorChar);
                     if (splitKnownFolderPath.Length == depth)
                     {
-                        if (!String.IsNullOrWhiteSpace(knownFolder.Path) && path.ToLower().StartsWith(knownFolder.Path.ToLower() + Path.DirectorySeparatorChar))
+                        if (!String.IsNullOrWhiteSpace(knownFolder.Path) && pathSegment.ToLower() == knownFolder.Path.ToLower())
                         {
                             var remaining = path.Substring(knownFolder.Path.Length);
 

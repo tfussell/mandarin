@@ -3,19 +3,84 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
+using System.Text;
+using WinEventHook;
+using System.Diagnostics;
 
 namespace Mandarin.Plugins.Applications
 {
     internal class Taskbar : IDisposable
     {
-        public List<string> Items { get; set; }
+        public List<ApplicationDockItem> Items { get; set; }
 
         public Taskbar()
         {
-            Items = GetAll().ToList();
+            var pinned = LoadPinnedItems().ToList();
+            var visibleWindowsHandles = LoadTopLevelWindows().ToList();
+            Items = new List<ApplicationDockItem>();
+
+            foreach (var item in pinned)
+            {
+                var entry = DesktopEntryManager.FromFile(item);
+                var dockItem = new ApplicationDockItem(entry);
+                dockItem.Pinned = true;
+                Items.Add(dockItem);
+            }
+
+            foreach (var hWnd in visibleWindowsHandles)
+            {
+                var id = AppUserModelId.Find(hWnd).Where(a => File.Exists(a.DestinationList)).FirstOrDefault();
+                bool match = false;
+
+                if (id != null)
+                {
+                    foreach (var item in Items)
+                    {
+                        if (item.AppId != null && item.AppId.Id == id.Id)
+                        {
+                            item.RegisterWindowHandle(hWnd);
+                            match = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!match)
+                {
+                    var dockItem = new ApplicationDockItem(hWnd);
+                    //Items.Add(dockItem);
+                }
+            }
         }
 
-        public IEnumerable<string> GetAll()
+        protected delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        protected static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        protected static extern int GetWindowTextLength(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        protected static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+        [DllImport("user32.dll")]
+        protected static extern bool IsWindowVisible(IntPtr hWnd);
+
+        public IEnumerable<IntPtr> LoadTopLevelWindows()
+        {
+            var topLevelWindows = new List<IntPtr>();
+
+            EnumWindows(new EnumWindowsProc((IntPtr hWnd, IntPtr lParams) =>
+            {
+                if (IsWindowVisible(hWnd))
+                {
+                    topLevelWindows.Add(hWnd);
+                }
+                return true;
+            }), IntPtr.Zero);
+
+            return topLevelWindows;
+        }
+
+        public IEnumerable<string> LoadPinnedItems()
         {
             var shortcuts = LoadFromRegistry();
 

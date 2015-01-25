@@ -8,23 +8,26 @@ using System.Collections.Specialized;
 using Mandarin.Business.Settings;
 using Mandarin.Business.Core;
 using Mandarin.Business.Events;
+using WinEventHook;
+using System.Diagnostics;
 
 namespace Mandarin.Plugins.Applications
 {
     public class ApplicationIconGroup : DockItemGroup
     {
         private static readonly string PinnedIconsFolder;
+        private Hook hook;
 
         static ApplicationIconGroup()
         {
             PinnedIconsFolder = Path.Combine(ConfigurationController.ApplicationDataFolder, "Pinned");
         }
 
-        private readonly OrderedDictionary items;
+        private readonly List<ApplicationDockItem> items;
 
         public ApplicationIconGroup()
         {
-            items = new OrderedDictionary();
+            items = new List<ApplicationDockItem>();
             LoadIcons();
         }
 
@@ -44,7 +47,7 @@ namespace Mandarin.Plugins.Applications
                         if (appId != null)
                         {
                             var item = new ApplicationDockItem(entry);
-                            items.Add(appId, item);
+                            items.Add(item);
                             OnItemsChanged(this, ItemsChangedEventArgs<DockItem>.BuildAddedEvents(new List<DockItem> { item }));
                         }
                     }
@@ -55,42 +58,43 @@ namespace Mandarin.Plugins.Applications
             {
                 using (var taskbar = new Taskbar())
                 {
-                    var referents = taskbar.GetAll().Select(DesktopEntryManager.FromShellLinkFile);
-                    var valid = referents.Where(i => i.Type != DesktopEntryType.Invalid).ToList();
-                    foreach (var item in valid)
-                    {
-                        if (item.Type == DesktopEntryType.Application)
-                        {
-                            var appId = AppUserModelId.Find(item.TryExec).FirstOrDefault();//a => File.Exists(a.DestinationList));
-                            if (appId != null)
-                            {
-                                items.Add(appId.Id, new ApplicationDockItem(item));
-                            }
-                        }
-                        else if (item.Type == DesktopEntryType.Directory)
-                        {
-                            var appIds = AppUserModelId.FromExplicitAppId("C:\\Windows\\explorer.exe", "Microsoft.Windows.Explorer");
-                            var appId = appIds.FirstOrDefault();
-                            if (appId != null)
-                            {
-                                items.Add(appId.Id, new ApplicationDockItem(item));
-                            }
-                        }
-
-                        //item.ToFile(Path.Combine(PinnedIconsFolder, item.Name));
-                    }
+                    items.AddRange(taskbar.Items);
                 }
             }
-        }
 
-        private void RegisterWindowHandle(IntPtr hWnd)
-        {
+            hook = new Hook();
+            var timer = new System.Timers.Timer(100);
+            timer.Elapsed += (object o, System.Timers.ElapsedEventArgs e) =>
+            {
+                while (hook.HasCreatedWindow())
+                {
+                    var hwnd = hook.PopCreatedWindow();
+                    var process = Process.GetProcesses().Where(p => p.MainWindowHandle == hwnd).SingleOrDefault();
+                    if (process == null) continue;
+                    foreach (var item in Items)
+                    {
+                        if (((ApplicationDockItem)item).DesktopEntry.TryExec == process.MainModule.FileName)
+                        {
+                            ((ApplicationDockItem)item).RegisterWindowHandle(hwnd);
+                            break;
+                        }
+                    }
+                }
 
-        }
-
-        private void UnregisterWindowHandle(IntPtr hWnd)
-        {
-
+                while (hook.HasDestroyedWindow())
+                {
+                    var hwnd = hook.PopDestroyedWindow();
+                    foreach (var item in Items)
+                    {
+                        if (((ApplicationDockItem)item).HasRegisteredWindowHandle(hwnd))
+                        {
+                            ((ApplicationDockItem)item).UnregisterWindowHandle(hwnd);
+                            break;
+                        }
+                    }
+                }
+            };
+            timer.Enabled = true;
         }
 
         public override string Name
@@ -100,7 +104,7 @@ namespace Mandarin.Plugins.Applications
 
         public override IEnumerable<DockItem> Items
         {
-            get { return items.Values.Cast<DockItem>(); }
+            get { return items.Cast<DockItem>(); }
         }
     }
 }

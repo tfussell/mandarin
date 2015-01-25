@@ -157,6 +157,10 @@
       <Project>{9287FAFD-38A4-4E6D-8972-70B144D66C04}</Project>
       <Name>WindowsManagedApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WinEventHook\WinEventHook.vcxproj">
+      <Project>{a61f01dd-9995-475a-8927-b3908bbb25a2}</Project>
+      <Name>WinEventHook</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

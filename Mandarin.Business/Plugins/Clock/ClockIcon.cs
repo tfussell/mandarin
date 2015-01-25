@@ -60,7 +60,7 @@ namespace Mandarin.Business.Plugins.Clock
                 stringFormat.Alignment = StringAlignment.Center;
                 stringFormat.LineAlignment = StringAlignment.Center;
                 
-                graphics.DrawString(DateTime.Now.Add(offset).ToShortTimeString(), new Font(FontFamily.GenericSansSerif, 40), Brushes.WhiteSmoke, new Rectangle(0, 0, 512, 512), stringFormat);
+                graphics.DrawString(DateTime.Now.Add(offset).ToShortTimeString(), new Font(FontFamily.GenericSansSerif, 70), Brushes.WhiteSmoke, new Rectangle(0, 0, 512, 512), stringFormat);
             }
 
             Image = iconImage;
